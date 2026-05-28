@@ -432,9 +432,15 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/header.js"></script>
 
 <script>
+// ── SUPABASE ──
+const SUPABASE_URL = 'https://zqiophoueasyjvwjapai.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ── MODAL ──
 function openModal(e) {
   if (e) e.preventDefault();
@@ -457,18 +463,45 @@ function toggleFaq(item) {
   if (!isOpen) item.classList.add('open');
 }
 
-// ── FORM SUBMIT (index.html과 동일한 패턴) ──
-function submitConsultation(e) {
+// ── FORM SUBMIT → Supabase ──
+async function submitConsultation(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   btn.textContent = '전송 중...';
   btn.disabled = true;
-  setTimeout(() => {
+
+  const name     = document.getElementById('c-name').value.trim();
+  const phone    = document.getElementById('c-phone').value.trim();
+  const email    = document.getElementById('c-email').value.trim();
+  const type     = document.getElementById('c-type').value;
+
+  // consultations 테이블: industry 컬럼에 제작 유형 값 저장
+  const { error } = await db.from('consultations').insert({
+    name,
+    phone,
+    email,
+    industry: type,   // 기존 어드민 테이블 컬럼 재활용
+    status: 'wait',
+    memo: '[홈페이지 제작 문의]'
+  });
+
+  if (error) {
+    btn.textContent = '전송 실패. 다시 시도해 주세요.';
+    btn.style.background = '#ff4d00';
+    btn.style.color = '#fff';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = '상담 신청하기 →';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2500);
+  } else {
     btn.textContent = '신청 완료! 24시간 내 연락드립니다 ✓';
     btn.style.background = '#1a1a1a';
     btn.style.color = 'var(--accent)';
+    document.getElementById('consultationForm').reset();
     setTimeout(closeModal, 2200);
-  }, 900);
+  }
 }
 
 // ── REVEAL ON SCROLL ──
