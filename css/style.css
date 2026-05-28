@@ -378,6 +378,87 @@ footer {
   line-height: 1.6;
 }
 
+#kakao-float {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 9999;
+  text-decoration: none;
+  display: block;
+}
+
+.kakao-float-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FAE100;
+  color: #3C1E1E;
+  padding: 13px 20px 13px 14px;
+  border-radius: 50px;
+  box-shadow:
+    0 4px 20px rgba(250, 225, 0, 0.45),
+    0 2px 8px rgba(0,0,0,0.18);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  transition: transform 0.22s cubic-bezier(.34,1.56,.64,1),
+              box-shadow 0.22s ease;
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+#kakao-float:hover .kakao-float-inner {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow:
+    0 8px 30px rgba(250, 225, 0, 0.55),
+    0 4px 12px rgba(0,0,0,0.22);
+}
+
+.kakao-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.kakao-svg {
+  width: 28px;
+  height: 28px;
+}
+
+.kakao-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3C1E1E;
+  line-height: 1;
+}
+
+/* 펄스 애니메이션 */
+.kakao-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  background: #FAE100;
+  opacity: 0;
+  z-index: 1;
+  animation: kakaoPulse 2.4s ease-out infinite;
+}
+
+@keyframes kakaoPulse {
+  0%   { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  70%  { opacity: 0;    transform: translate(-50%, -50%) scale(1.35); }
+  100% { opacity: 0;    transform: translate(-50%, -50%) scale(1.35); }
+}
+
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -400,6 +481,20 @@ footer {
     .btn-primary { font-size: 15px; padding: 17px 32px; }
     .solution-box { padding: 28px 20px; }
     .stats { grid-template-columns: 1fr 1fr; }
+      #kakao-float {
+      bottom: 20px;
+      right: 16px;
+    }
+    .kakao-float-inner {
+      padding: 11px 16px 11px 12px;
+      font-size: 13px;
+      gap: 8px;
+    }
+    .kakao-icon-wrap,
+    .kakao-svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
 
