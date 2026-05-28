@@ -55,9 +55,9 @@ nav {
 .nav-logo span { color: var(--accent); }
 .nav-links { display: flex; gap: 40px; list-style: none; }
 .nav-links a {
-  font-size: 13px; /* 11px -> 13px */
+  font-size: 17px; /* 11px -> 13px */
   font-weight: 500; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color:#e9e9e9;
   text-decoration: none; transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--white); }
