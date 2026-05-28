@@ -1,9 +1,12 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --red: #FF503C;
-  --red-light: rgba(255,80,60,0.10);
-  --red-border: rgba(255,80,60,0.25);
+  /* ── 첫 번째 style의 메인 컬러 테마 반영 ── */
+  --red: #c8ff00;                    /* 메인 라임 컬러 */
+  --red-light: rgba(200, 255, 0, 0.08); /* 라임 투명도 배경 (0.1 -> 0.08로 가독성 최적화) */
+  --red-border: rgba(200, 255, 0, 0.25);/* 라임 보더 컬러 */
+  --accent2: #ff4d00;                /* 서브 포인트 오렌지 레드 */
+  
   --bg: #0C0C0C;
   --surface: #141414;
   --surface2: #1C1C1C;
@@ -37,7 +40,7 @@ nav {
 .nav-logo span { color: var(--red); }
 .nav-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--red); color: #fff;
+  background: var(--red); color: #0a0a0a; /* 라임 배경 위 글씨색을 다크하게 변경하여 가독성 확보 */
   font-size: 13px; font-weight: 600;
   padding: 9px 20px; border-radius: 100px;
   transition: opacity 0.15s;
@@ -55,7 +58,7 @@ nav {
   position: absolute; top: -180px; left: 50%;
   transform: translateX(-50%);
   width: 600px; height: 500px;
-  background: radial-gradient(circle, rgba(255,80,60,0.13) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(200, 255, 0, 0.1) 0%, transparent 68%); /* 상단 그라데이션 라임 톤 변경 */
   pointer-events: none;
 }
 .hero-badge {
@@ -98,7 +101,7 @@ nav {
   transition: all 0.18s;
 }
 .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
-.filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+.filter-btn.active { background: var(--red); border-color: var(--red); color: #0a0a0a; } /* 활성화 텍스트 다크 브라운/블랙 계열 변경 */
 
 /* GRID */
 .grid-wrap {
@@ -129,11 +132,11 @@ nav {
   display: flex; flex-direction: column; padding: 20px; gap: 8px;
 }
 .mock-hero {
-  background: rgba(255,80,60,0.08); border-radius: 8px; padding: 14px 16px;
+  background: rgba(200, 255, 0, 0.05); border-radius: 8px; padding: 14px 16px; /* 썸네일 목업 영역 라임 라인 매칭 */
   flex: 1; display: flex; flex-direction: column; justify-content: center;
 }
 .mock-line { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.12); margin-bottom: 6px; }
-.mock-line.red { background: rgba(255,80,60,0.5); width: 60%; }
+.mock-line.red { background: rgba(200, 255, 0, 0.4); width: 60%; }
 .mock-line.short { width: 45%; }
 .mock-line.med { width: 72%; }
 .mock-btn-row { display: flex; gap: 6px; margin-top: 10px; }
@@ -245,9 +248,9 @@ nav {
 .form-field input::placeholder { color: var(--muted2); }
 .form-field input:focus {
   border-color: var(--red);
-  background: rgba(255,80,60,0.04);
+  background: rgba(200, 255, 0, 0.02);
 }
-.form-field input.error { border-color: rgba(255,80,60,0.6); }
+.form-field input.error { border-color: var(--accent2); } /* 서브 포인트 오렌지레드로 에러 강조 변경 */
 
 /* status messages */
 .form-status {
@@ -263,15 +266,15 @@ nav {
 }
 .form-status.error {
   display: block;
-  background: rgba(255,80,60,0.08);
-  border: 0.5px solid var(--red-border);
-  color: var(--red);
+  background: rgba(255, 77, 0, 0.08);
+  border: 0.5px solid rgba(255, 77, 0, 0.25);
+  color: var(--accent2);
 }
 
 /* modal actions */
 .modal-actions { display: flex; gap: 10px; }
 .btn-modal-main {
-  flex: 1; background: var(--red); color: #fff;
+  flex: 1; background: var(--red); color: #0a0a0a;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px; font-weight: 700;
   padding: 14px 20px; border-radius: 12px; border: none;
@@ -292,8 +295,8 @@ nav {
 
 .spinner {
   width: 16px; height: 16px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(10, 10, 10, 0.3); /* 스피너도 어두운 톤 배경 위에서 보이게 수정 */
+  border-top-color: #0a0a0a;
   animation: spin 0.7s linear infinite;
   display: none;
 }
@@ -310,7 +313,7 @@ nav {
 .banner-text h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
 .banner-text p { font-size: 14px; color: var(--muted); line-height: 1.6; }
 .btn-banner {
-  background: var(--red); color: #fff;
+  background: var(--red); color: #0a0a0a;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px; font-weight: 700;
   padding: 14px 28px; border-radius: 100px; border: none;
@@ -329,8 +332,8 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
 
 /* 디비쪽 연동 폼 */
 .lead-form-section { margin-top: 20px; padding-top: 20px; border-top: 0.5px solid rgba(255,255,255,0.1); }
-.lead-form-label { font-size: 12px; font-weight: 600; color: #FF503C; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-.lead-form-label::before { content: ''; display: inline-block; width: 3px; height: 12px; background: #FF503C; border-radius: 2px; }
+.lead-form-label { font-size: 12px; font-weight: 600; color: var(--red); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+.lead-form-label::before { content: ''; display: inline-block; width: 3px; height: 12px; background: var(--red); border-radius: 2px; }
 .form-fields { display: flex; flex-direction: column; gap: 10px; }
 .form-field label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
 .form-field input {
@@ -342,15 +345,15 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   transition: border-color 0.15s;
 }
 .form-field input::placeholder { color: rgba(255,255,255,0.25); }
-.form-field input:focus { border-color: rgba(255,80,60,0.5); }
+.form-field input:focus { border-color: rgba(200, 255, 0, 0.5); }
 .form-status { font-size: 13px; font-weight: 500; min-height: 18px; }
 .btn-modal-main { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+.spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(10,10,10,0.3); border-top-color: #0a0a0a; border-radius: 50%; animation: spin 0.7s linear infinite; }
 .btn-modal-main.loading .btn-text { opacity: 0.7; }
 .btn-modal-main.loading .spinner { display: block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-
+/* KAKAO FLOAT (기존 옐로우 아이덴티티 유지) */
 #kakao-float {
   position: fixed;
   bottom: 28px;
@@ -359,7 +362,6 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   text-decoration: none;
   display: block;
 }
-
 .kakao-float-inner {
   display: flex;
   align-items: center;
@@ -381,14 +383,12 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   z-index: 2;
   white-space: nowrap;
 }
-
 #kakao-float:hover .kakao-float-inner {
   transform: translateY(-3px) scale(1.04);
   box-shadow:
     0 8px 30px rgba(250, 225, 0, 0.55),
     0 4px 12px rgba(0,0,0,0.22);
 }
-
 .kakao-icon-wrap {
   display: flex;
   align-items: center;
@@ -397,20 +397,16 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   height: 28px;
   flex-shrink: 0;
 }
-
 .kakao-svg {
   width: 28px;
   height: 28px;
 }
-
 .kakao-label {
   font-size: 14px;
   font-weight: 700;
   color: #3C1E1E;
   line-height: 1;
 }
-
-/* 펄스 애니메이션 */
 .kakao-pulse {
   position: absolute;
   top: 50%;
@@ -424,33 +420,18 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   z-index: 1;
   animation: kakaoPulse 2.4s ease-out infinite;
 }
-
 @keyframes kakaoPulse {
   0%   { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
   70%  { opacity: 0;    transform: translate(-50%, -50%) scale(1.35); }
   100% { opacity: 0;    transform: translate(-50%, -50%) scale(1.35); }
 }
 
-  
-  /* ── RESPONSIVE ── */
-  @media (max-width: 480px) {
-      #kakao-float {
-      bottom: 20px;
-      right: 16px;
-    }
-    .kakao-float-inner {
-      padding: 11px 16px 11px 12px;
-      font-size: 13px;
-      gap: 8px;
-    }
-    .kakao-icon-wrap,
-    .kakao-svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  #kakao-float { bottom: 20px; right: 16px; }
+  .kakao-float-inner { padding: 11px 16px 11px 12px; font-size: 13px; gap: 8px; }
+  .kakao-icon-wrap, .kakao-svg { width: 24px; height: 24px; }
+}
 @media (max-width: 600px) {
   nav { padding: 0 20px; }
   .grid-wrap { grid-template-columns: 1fr; }
