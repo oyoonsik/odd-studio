@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <ul class="nav-links">
           <li><a href="index.html" id="nav-home">HOME</a></li>
           <li><a href="portfolio_showcase.html" id="nav-portfolio">상세페이지</a></li>
-          <li><a href="template_showcase.html" id="nav-template">템플릿마켓</a></li>
+          <li><a href="website_showcase.html" id="nav-website">홈페이지 제작 & 템플릿</a></li>
         </ul>
         <a href="#" class="nav-cta">상담 문의하기</a>
       </nav>
@@ -28,5 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("nav-portfolio")?.classList.add("active");
   } else if (page === "template_showcase.html") {
     document.getElementById("nav-template")?.classList.add("active");
+  } else if (page === "website_showcase.html") {
+    document.getElementById("nav-website")?.classList.add("active");
   }
 });
