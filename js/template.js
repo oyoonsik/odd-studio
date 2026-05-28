@@ -13,8 +13,8 @@ const cards = [
 let currentCard = null;
 
 /* ── Supabase 설정 및 초기화 ── */
-const SUPABASE_URL = 'https://jcwdodfiunuorqmekepw.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjd2RvZGZpdW51b3JxbWVrZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNDIwOTAsImV4cCI6MjA5NDYxODA5MH0.t_hDaSsqIYSV2BrQeQvEzf9Wqv8sD8Jvz1GHuwnGGyo';
+const SUPABASE_URL = 'https://zqiophoueasyjvwjapai.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
 const TABLE = 'consultations';
 
 // HTML에서 글로벌 supabase 스크립트가 정상적으로 로드되었는지 확인 후 초기화
