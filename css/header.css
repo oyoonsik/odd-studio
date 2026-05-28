@@ -1,0 +1,66 @@
+ /* 공통 헤더 스타일 강제 주입 */
+      .global-header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 99999;
+        background: rgba(10, 10, 10, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 40px;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .nav-logo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 28px;
+        letter-spacing: 0.04em;
+        font-weight: bold;
+        color: #f5f5f0;
+        text-decoration: none;
+      }
+      .nav-logo span { 
+        color: #c8ff00; 
+      }
+      .nav-links { 
+        display: flex; 
+        gap: 32px; 
+        list-style: none; 
+        font-size: 14px; 
+        font-weight: 500;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-links a { 
+        color: #666; 
+        text-decoration: none;
+        transition: color 0.25s; 
+      }
+      .nav-links a:hover, .nav-links a.active { 
+        color: #c8ff00; 
+      }
+      .nav-cta {
+        font-size: 13px; 
+        font-weight: 700; 
+        background: #c8ff00; 
+        color: #0a0a0a;
+        padding: 10px 20px; 
+        border-radius: 50px; 
+        text-decoration: none;
+        transition: transform 0.2s;
+      }
+      .nav-cta:hover { 
+        transform: scale(1.05); 
+      }
+      
+      /* 모바일 대응 */
+      @media (max-width: 768px) {
+        .nav-container { padding: 18px 20px; }
+        .nav-links { display: none; }
+      }

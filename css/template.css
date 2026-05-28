@@ -27,26 +27,6 @@ body {
 }
 a { text-decoration: none; color: inherit; }
 
-/* NAV */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px; height: 60px;
-  background: rgba(12,12,12,0.85);
-  backdrop-filter: blur(14px);
-  border-bottom: 0.5px solid var(--border);
-}
-.nav-logo { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
-.nav-logo span { color: var(--red); }
-.nav-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--red); color: #0a0a0a; /* 라임 배경 위 글씨색을 다크하게 변경하여 가독성 확보 */
-  font-size: 13px; font-weight: 600;
-  padding: 9px 20px; border-radius: 100px;
-  transition: opacity 0.15s;
-}
-.nav-cta:hover { opacity: 0.88; }
-
 /* HERO */
 .hero {
   padding: 100px 24px 72px;
@@ -433,7 +413,6 @@ footer { border-top: 0.5px solid var(--border); padding: 32px 24px; text-align: 
   .kakao-icon-wrap, .kakao-svg { width: 24px; height: 24px; }
 }
 @media (max-width: 600px) {
-  nav { padding: 0 20px; }
   .grid-wrap { grid-template-columns: 1fr; }
   .banner { flex-direction: column; text-align: center; }
   .modal { padding: 28px 22px; }
