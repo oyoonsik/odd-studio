@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio O.D.D | Portfolio - 상세페이지 포트폴리오</title>
+<meta name="description" content="디자인 맡길 때 어디야? 오디디지. 오디디 스튜디오의 상세페이지 포트폴리오를 확인하세요.">
+<meta property="og:image" content="https://odd-studio.vercel.app/img/thumbnail.png">
+<meta property="og:url" content="https://theform-templates.vercel.app">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/portfolio.css">
+
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-tag">OUR MASTERPIECE</div>
+  <h1>전환을 <span>설계하는</span> 랜딩페이지 스튜디오</h1>
+  <p>ODD STUDIO는 소비자 심리를 기반으로 전환 중심 랜딩페이지를 제작합니다.</p>
+</section>
+
+<div class="filter-container">
+  <button class="filter-btn active" onclick="filterCategory('all', event)">전체보기</button>
+  <button class="filter-btn" onclick="filterCategory('hospital', event)">병원·의원</button>
+  <button class="filter-btn" onclick="filterCategory('diet', event)">다이어트·식품</button>
+  <button class="filter-btn" onclick="filterCategory('pt', event)">헬스·PT</button>
+  <button class="filter-btn" onclick="filterCategory('academy', event)">학원·교육</button>
+  <button class="filter-btn" onclick="filterCategory('beauty', event)">피부·뷰티</button>
+</div>
+
+<section class="portfolio-section">
+  <div class="portfolio-grid" id="portfolioGrid">
+    </div>
+</section>
+
+<div class="modal" id="portfolioModal" onclick="closeModal()">
+  <div class="modal-container" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    
+    <div class="modal-viewer">
+      <img id="m-long-img" src="" alt="상세페이지 풀 이미지">
+    </div>
+    
+    <div class="modal-sidebar">
+      <div class="m-meta-top">
+        <div class="m-tag" id="m-tag">HOSPITAL</div>
+        <h2 class="m-title" id="m-title">프로젝트 타이틀</h2>
+        <p class="m-desc" id="m-desc">프로젝트 상세 설명 및 기획 의도가 들어가는 영역입니다.</p>
+        <ul class="m-features" id="m-features">
+          </ul>
+      </div>
+      <div class="m-actions">
+        <button class="btn-modal-cta" onclick="location.href='#'">
+          <span>⚡ 이 품목 맞춤 상담 신청하기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <span>STUDIO O.D.D</span>. All Rights Reserved. 전환율 중심 기획 × 하이엔드 비주얼 에이전시</p>
+</footer>
+
+<script>
+// ── PORTFOLIO DATA (실제 이미지 경로 및 내용으로 변경하시면 됩니다) ──
+const PORTFOLIO_DATA = [
+  {
+    id: 1,
+    category: 'hospital',
+    title: '바른정형외과 관절 센터 상세페이지',
+    desc: '의료법을 준수하면서도 환자의 심리적 장벽을 낮추는 직관적인 인포그래픽 기획 및 신뢰감을 주는 딥블루 톤앤매너 디자인.',
+    imgSrc: 'images/portfolio_hospital_thumb.jpg', // 카드 썸네일용 (정방형 크롭 또는 와이드)
+    longImgSrc: 'images/portfolio_hospital_full.jpg', // 모달 내부 세로형 풀 이미지 경로
+    features: ['신뢰감을 높이는 전문 의료진 섹션 컴포넌트 강화', '복잡한 치료 프로세스를 3단계 가이드 디자인으로 시각화', '환자 후기 데이터 시각 중심 레이아웃 재배치']
+  },
+  {
+    id: 2,
+    category: 'diet',
+    title: '제로컷 다이어트 쉐이크 프리미엄 런칭',
+    desc: '소비자의 강력한 페인 포인트(Pain Point)를 자극하는 서두 기획과 트렌디한 네온 그래픽 배치를 통해 젊은 층 타겟 전환 유도.',
+    imgSrc: 'images/portfolio_diet_thumb.jpg',
+    longImgSrc: 'images/portfolio_diet_full.jpg',
+    features: ['스마트폰 한 화면 안에 들어오는 강렬한 후킹 카피 배치', '성분 비교 분석표를 미니멀한 비교 표 그리드로 가독성 확보', '구매 전환을 자극하는 실시간 한정 수량 패키지 연출']
+  },
+  {
+    id: 3,
+    category: 'beauty',
+    title: '글로우 시그니처 앰플 브랜드 상세페이지',
+    desc: '고급 에스테틱 브랜드의 아이덴티티를 살리기 위해 여백의 미와 매끄러운 텍스처 접사 이미지를 활용한 미니멀 디자인 감성 빌드.',
+    imgSrc: '#',
+    longImgSrc: 'images/portfolio_beauty_full.jpg',
+    features: ['고화질 텍스처 및 제형 컷 중심의 하이엔드 레이아웃', '임상 시험 완료 데이터 그래프를 감각적인 수치 인포그래픽화', '스토어팜/자사몰 연동에 최적화된 모바일 반응형 폰트 비율']
+  },
+  {
+    id: 4,
+    category: 'academy',
+    title: '넥스트 코드 코딩 부트캠프 모집 페이지',
+    desc: '비전공자 타겟 맞춤형 커리큘럼을 쉽게 풀어낸 페이지. 딱딱한 교육 레이아웃을 탈피해 힙한 테크 감성의 다크 모드로 구축.',
+    imgSrc: 'images/portfolio_academy_thumb.jpg',
+    longImgSrc: 'images/portfolio_academy_full.jpg',
+    features: ['개발사 트렌드에 맞춘 힙한 다크모드 및 라임 코드 하이라이트', '수강생 아웃풋 포트폴리오 슬라이더 카드 디자인 전면 배치', '상담 도달률을 높이기 위한 원클릭 간편 접수 CTA 섹션 기획']
+  }
+];
+
+const CATEGORY_MAP = {
+  hospital: '병원·의원',
+  diet: '다이어트·식품',
+  pt: '헬스·PT',
+  academy: '학원·교육',
+  beauty: '피부·뷰티'
+};
+
+// ── RENDER CARDS ──
+function renderPortfolio(filter = 'all') {
+  const grid = document.getElementById('portfolioGrid');
+  const filteredData = filter === 'all' ? PORTFOLIO_DATA : PORTFOLIO_DATA.filter(item => item.category === filter);
+  
+  if (filteredData.length === 0) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--muted);">준비 중인 포트폴리오입니다.</div>`;
+    return;
+  }
+  
+  grid.innerHTML = filteredData.map(item => `
+    <div class="portfolio-card" onclick="openModal(${item.id})">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${item.imgSrc}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/600x800/141414/ffffff?text=STUDIO+O.D.D'">
+        <div class="card-overlay"></div>
+      </div>
+      <div class="card-info">
+        <span class="card-tag">${CATEGORY_MAP[item.category] || '기타'}</span>
+        <h3 class="card-title">${item.title}</h3>
+        <p class="card-desc">${item.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── FILTER TRIGGER ──
+function filterCategory(category, event) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  renderPortfolio(category);
+}
+
+// ── MODAL SYSTEM ──
+function openModal(id) {
+  const item = PORTFOLIO_DATA.find(p => p.id === id);
+  if (!item) return;
+  
+  document.getElementById('m-tag').textContent = CATEGORY_MAP[item.category] || '기타';
+  document.getElementById('m-title').textContent = item.title;
+  document.getElementById('m-desc').textContent = item.desc;
+  
+  // 기획 핵심 포인트 바인딩
+  const featuresList = document.getElementById('m-features');
+  featuresList.innerHTML = item.features.map(f => `<li>${f}</li>`).join('');
+  
+  // 이미지 매칭 및 상단 스크롤 초기화
+  const longImg = document.getElementById('m-long-img');
+  longImg.src = item.longImgSrc;
+  document.querySelector('.modal-viewer').scrollTop = 0;
+  
+  document.getElementById('portfolioModal').classList.add('open');
+  document.body.style.overflow = 'hidden'; // 부모 페이지 스크롤 방지
+}
+
+function closeModal() {
+  document.getElementById('portfolioModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// 초기 로딩 실행
+window.addEventListener('DOMContentLoaded', () => {
+  renderPortfolio('all');
+});
+</script>
+<script src="js/header.js"></script>
+
+</body>
+</html>
