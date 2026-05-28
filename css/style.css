@@ -97,34 +97,45 @@ nav {
   color: var(--muted);
   opacity: 0;
   animation: fadeUp 0.7s ease 0.2s forwards;
-  margin-bottom: 8px;
+  margin-bottom: -15px;
 }
 
 /* 메인 타이틀 */
 .hero-title {
-  font-family: var(--font-display);
+  font-family: var(--font-body); /* 한글 폰트가 잘 적용되도록 확인 */
   font-size: clamp(72px, 12vw, 180px);
-  line-height: 0.88; letter-spacing: -3px;
+  
+  /* 1. line-height를 0.88에서 1.05~1.1 정도로 넓혀 글자 겹침을 원천 차단합니다 */
+  line-height: 1.1; 
+  
+  letter-spacing: -3px;
   color: var(--white);
-  opacity: 0; animation: fadeUp 0.9s ease 0.38s forwards;
-}
-
-/* 어디야 라인 */
-.line-where {
-  display: block; color: var(--white);
-}
-
-/* 오디디지 라인 */
-.line-odd {
-  display: block; color: var(--accent);
+  opacity: 0; 
+  animation: fadeUp 0.9s ease 0.38s forwards;
   position: relative;
+}
+
+.line-where {
+  display: block; 
+  color: var(--white);
+  margin-bottom: -15px; /* '야'와 '오' 사이의 물리적 간격을 벌려줍니다 */
+}
+
+/* 3. 밑줄 가상요소는 타이틀 전체 맨 바닥에 안정적으로 위치 */
+.line-odd {
+  display: block; 
+  color: var(--accent);
 }
 .line-odd::after {
   content: '';
-  position: absolute; bottom: 8px; left: 0;
-  width: 100%; height: 6px;
+  position: absolute; 
+  bottom: -16px; /* 행간이 넓어진 만큼 밑줄도 글자 밑으로 여유 있게 내립니다 */
+  left: 0;
+  width: 100%; 
+  height: 6px;
   background: var(--accent2);
-  transform: scaleX(0); transform-origin: left;
+  transform: scaleX(0); 
+  transform-origin: left;
   animation: lineIn 0.65s cubic-bezier(.22,1,.36,1) 1.15s forwards;
 }
 
