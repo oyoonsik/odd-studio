@@ -110,7 +110,6 @@ nav {
   color: #b5b5b5; /* 서브 타이틀 컬러 명도 업 */
   opacity: 0;
   animation: fadeUp 0.7s ease 0.2s forwards;
-  margin-bottom: 12px;
 }
 .hero-title {
   font-family: var(--font-body);
@@ -124,7 +123,7 @@ nav {
 }
 .line-where {
   display: block; color: var(--white);
-  margin-bottom: 10px; /* '야'와 '오' 사이 획 충돌 차단 여백 */
+
 }
 .line-odd {
   display: block; color: var(--accent);
