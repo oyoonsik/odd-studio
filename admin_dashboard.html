@@ -239,6 +239,7 @@ tbody tr:hover .row-actions { opacity: 1; }
 .action-btn:hover { color: var(--text); border-color: var(--border2); }
 .action-btn.call:hover { color: var(--green); border-color: rgba(61,214,140,0.3); background: var(--green2); }
 .action-btn.done:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent2); }
+.action-btn.delete:hover { color: #FF4B4B; border-color: rgba(255,75,75,0.3); background: rgba(255,75,75,0.12); }
 
 /* ── PAGINATION ── */
 .pagination {
@@ -321,7 +322,9 @@ tbody tr:hover .row-actions { opacity: 1; }
 .drawer-btn.call-btn { background: var(--green); color: #0A1A0C; }
 .drawer-btn.done-btn { background: var(--accent); color: #fff; }
 .drawer-btn.cancel-btn { background: var(--surface3); color: var(--muted); border: 0.5px solid var(--border2); }
+.drawer-btn.danger-btn { background: rgba(255,75,75,0.15); color: #FF4B4B; border: 0.5px solid rgba(255,75,75,0.3); }
 .drawer-btn:hover { opacity: 0.88; }
+.drawer-btn.danger-btn:hover { background: rgba(255,75,75,0.25); }
 
 /* ── CHART SECTION ── */
 .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
@@ -367,17 +370,15 @@ tbody tr:hover .row-actions { opacity: 1; }
   .main { margin-left: 60px; width: 100%; }
   
   .topbar { padding: 0 16px; }
-  .topbar-date { display: none; } /* 모바일에서 긴 날짜 텍스트는 숨겨서 공간 확보 */
+  .topbar-date { display: none; }
   
   .content { padding: 16px; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .chart-grid { grid-template-columns: 1fr; gap: 16px; }
   
-  /* 테이블 가로 스크롤 보장 */
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { min-width: 600px; } /* 최소 가로폭을 지정해 테이블 레이아웃 무너짐 방지 */
+  table { min-width: 600px; }
   
-  /* 드로어 전체 화면 채우기 */
   .drawer { width: 100%; right: -100%; }
   .drawer-body { padding: 16px; }
 }
@@ -388,7 +389,7 @@ tbody tr:hover .row-actions { opacity: 1; }
   .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
   .btn { flex: 1; min-width: 110px; justify-content: center; padding: 6px 10px; font-size: 11px; }
   
-  .stat-grid { grid-template-columns: 1fr; } /* 대시보드 카드를 1열로 세로 정렬 */
+  .stat-grid { grid-template-columns: 1fr; }
   .stat-card { padding: 16px; }
   .stat-num { font-size: 24px; }
   
@@ -663,6 +664,7 @@ tbody tr:hover .row-actions { opacity: 1; }
         <button class="drawer-btn call-btn" id="d-call-btn">📞 전화 연결</button>
         <button class="drawer-btn done-btn" onclick="setStatus('done')">✓ 상담 완료 처리</button>
         <button class="drawer-btn cancel-btn" onclick="setStatus('cancel')">✕ 취소 처리</button>
+        <button class="drawer-btn danger-btn" onclick="deleteRowFromDrawer()">🗑️ 신청 데이터 삭제</button>
       </div>
     </div>
   </div>
@@ -682,6 +684,7 @@ let data = [];
 let currentPage = 1;
 const PER_PAGE = 10;
 let selectedId = null;
+let isDeleting = false; // Drawer 닫힘 분기 처리를 위한 플래그
 
 const INDUSTRIES = {
   hospital: { label: '병원·의원', cls: 'badge-hospital' },
@@ -719,6 +722,18 @@ async function updateRow(id, fields) {
   const { error } = await db.from(TABLE).update(fields).eq('id', id);
   if (error) alert('업데이트 실패: ' + error.message);
   else await loadData();
+}
+
+// 데이터 삭제 함수
+async function deleteRow(id) {
+  if (!confirm('정말로 이 신청 데이터를 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.')) return;
+  
+  const { error } = await db.from(TABLE).delete().eq('id', id);
+  if (error) {
+    alert('삭제 실패: ' + error.message);
+  } else {
+    await loadData();
+  }
 }
 
 // 실시간 구독
@@ -785,6 +800,7 @@ function renderTable() {
             <div class="row-actions" onclick="event.stopPropagation()">
               <button class="action-btn call" onclick="callPhone('${r.phone}')">📞 전화</button>
               <button class="action-btn done" onclick="quickDone('${r.id}')">✓ 완료</button>
+              <button class="action-btn delete" onclick="deleteRow('${r.id}')">🗑️ 삭제</button>
             </div>
           </td>
         </tr>`;
@@ -861,6 +877,7 @@ function openDrawer(id) {
   const r = data.find(d => d.id === id);
   if (!r) return;
   selectedId = id;
+  isDeleting = false;
   const ind = INDUSTRIES[r.industry] || { label: r.industry || '기타', cls: '' };
   const st  = STATUSES[r.status]    || { label: r.status, cls: '' };
   document.getElementById('d-name').textContent = r.name || '—';
@@ -876,13 +893,15 @@ function openDrawer(id) {
 }
 
 function closeDrawer() {
-  if (selectedId) {
+  // 삭제 액션으로 창이 닫히는 상황이 아닐 때만 메모 업데이트 트리거 작동
+  if (selectedId && !isDeleting) {
     const memo = document.getElementById('d-memo').value;
     updateRow(selectedId, { memo });
   }
   document.getElementById('drawerBg').classList.remove('open');
   document.getElementById('drawer').classList.remove('open');
   selectedId = null;
+  isDeleting = false;
 }
 
 function setStatus(status) {
@@ -890,6 +909,25 @@ function setStatus(status) {
   const memo = document.getElementById('d-memo').value;
   updateRow(selectedId, { status, memo });
   closeDrawer();
+}
+
+// Drawer 상세 창 내부 삭제 액션 함수
+async function deleteRowFromDrawer() {
+  if (!selectedId) return;
+  const targetId = selectedId;
+  if (!confirm('정말로 이 신청 데이터를 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.')) return;
+  
+  isDeleting = true; // 메모 업데이트 방지용 플래그 On
+  const { error } = await db.from(TABLE).delete().eq('id', targetId);
+  if (error) {
+    alert('삭제 실패: ' + error.message);
+    isDeleting = false;
+  } else {
+    document.getElementById('drawerBg').classList.remove('open');
+    document.getElementById('drawer').classList.remove('open');
+    selectedId = null;
+    await loadData();
+  }
 }
 
 function quickDone(id) { updateRow(id, { status: 'done' }); }
@@ -941,7 +979,6 @@ function updateDate() {
 setInterval(updateDate, 1000); updateDate();
 
 // ── 로그인 ──
-// 비밀번호를 변경하려면 아래 ADMIN_PASSWORD 값을 수정하세요.
 const ADMIN_PASSWORD = 'admin1234';
 const SESSION_KEY = 'admin_auth';
 
@@ -950,7 +987,6 @@ function checkAuth() {
     document.getElementById('loginOverlay').classList.add('hidden');
     loadData();
   } else {
-    // 인증 안 됐으면 데이터 로딩 안 함
     setTimeout(() => document.getElementById('loginInput').focus(), 100);
   }
 }
