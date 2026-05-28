@@ -101,7 +101,7 @@ a { text-decoration: none; color: inherit; }
 
 /* WIDE FULLVIEW MODAL */
 .modal {
-  position: fixed; inset: 0; z-index: 1000;
+  position: fixed; inset: 0; z-index: 9000;
   background: rgba(5,5,5,0.95); backdrop-filter: blur(16px);
   display: none; align-items: center; justify-content: center;
   padding: 40px;
