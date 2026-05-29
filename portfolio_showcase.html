@@ -3,23 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studio O.D.D | Portfolio - 상세페이지 포트폴리오</title>
-<meta name="description" content="디자인 맡길 때 어디야? 오디디지. 오디디 스튜디오의 상세페이지 포트폴리오를 확인하세요.">
+<title>Studio O.D.D | Portfolio - 포트폴리오</title>
+<meta name="description" content="디자인 맡길 때 어디야? 오디디지. 오디디 스튜디오의 상세페이지·홈페이지 제작 포트폴리오를 확인하세요.">
 <meta property="og:url" content="https://theform-templates.vercel.app">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://odd-studio.vercel.app/img/thumbnail.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/portfolio.css">
+<style>
+/* ── MAIN TABS ── */
+.main-tab-wrap {
+  display: flex;
+  border-bottom: 1px solid #222;
+  padding: 0 48px;
+  background: #0a0a0a;
+  position: sticky;
+  top: 72px;
+  z-index: 100;
+}
+.main-tab {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #666;
+  padding: 18px 32px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+}
+.main-tab:hover { color: #f5f5f0; }
+.main-tab.active { color: #c8ff00; border-bottom-color: #c8ff00; }
 
+/* ── WEBSITE PORTFOLIO ── */
+.web-portfolio-section { padding: 60px 48px 100px; }
+.web-s-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
+  padding-bottom: 24px;
+  margin-bottom: 48px;
+}
+.web-s-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: #c8ff00; margin-bottom: 8px;
+}
+.web-s-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 7vw, 88px); line-height: 1; color: #f5f5f0;
+}
+.web-s-count {
+  font-family: 'Bebas Neue', sans-serif; font-size: 88px;
+  color: transparent; -webkit-text-stroke: 1px #222; line-height: 1; user-select: none;
+}
+.web-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: #222; border: 1px solid #222;
+}
+.web-card {
+  background: #0a0a0a; position: relative; overflow: hidden;
+  transition: background 0.3s; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+}
+.web-card:hover { background: #141414; }
+.web-card-thumb {
+  width: 100%; aspect-ratio: 16/10; overflow: hidden;
+  position: relative; background: #141414;
+}
+.web-card-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease; display: block;
+}
+.web-card:hover .web-card-thumb img { transform: scale(1.04); }
+.web-card-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0);
+  transition: background 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.web-card:hover .web-card-overlay { background: rgba(0,0,0,0.45); }
+.web-card-link-icon {
+  font-size: 32px; color: #c8ff00;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.web-card:hover .web-card-link-icon { opacity: 1; transform: scale(1); }
+.web-card-info {
+  padding: 28px 28px 32px; flex: 1;
+  display: flex; flex-direction: column; gap: 10px;
+  border-top: 1px solid #222;
+}
+.web-card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.web-card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 5px 12px; border-radius: 2px;
+  background: #222; color: #a0a0a0;
+}
+.web-card-tag.live { background: rgba(200,255,0,0.1); color: #c8ff00; border: 1px solid rgba(200,255,0,0.25); }
+.web-card-tag.dev  { background: rgba(255,77,0,0.1);  color: #ff4d00; border: 1px solid rgba(255,77,0,0.25); }
+.web-card-title { font-size: 20px; font-weight: 700; color: #f5f5f0; line-height: 1.3; }
+.web-card-desc { font-size: 14px; color: #a0a0a0; line-height: 1.7; font-weight: 300; flex: 1; }
+.web-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid #222;
+}
+.web-card-type { font-size: 12px; color: #666; letter-spacing: 1px; }
+.web-card-arrow { font-size: 20px; color: #c8ff00; }
+.web-card.coming-soon { opacity: 0.4; pointer-events: none; }
+
+@media (max-width: 768px) {
+  .main-tab-wrap { padding: 0 20px; top: 60px; }
+  .main-tab { padding: 14px 16px; font-size: 13px; }
+  .web-portfolio-section { padding: 40px 20px 60px; }
+  .web-grid { grid-template-columns: 1fr; }
+  .web-s-count { display: none; }
+}
+</style>
 </head>
 <body>
-
 
 <section class="hero">
   <div class="hero-tag">OUR MASTERPIECE</div>
@@ -27,35 +137,54 @@
   <p>ODD STUDIO는 소비자 심리를 기반으로<br> 전환 중심 상세페이지를 제작합니다.</p>
 </section>
 
-<div class="filter-container">
-  <button class="filter-btn active" onclick="filterCategory('all', event)">전체보기</button>
-  <button class="filter-btn" onclick="filterCategory('hospital', event)">병원·의원</button>
-  <button class="filter-btn" onclick="filterCategory('diet', event)">다이어트·식품</button>
-  <button class="filter-btn" onclick="filterCategory('pt', event)">헬스·PT</button>
-  <button class="filter-btn" onclick="filterCategory('academy', event)">학원·교육</button>
-  <button class="filter-btn" onclick="filterCategory('beauty', event)">피부·뷰티</button>
+<!-- ── 메인 탭 ── -->
+<div class="main-tab-wrap">
+  <button class="main-tab active" onclick="switchMainTab('detail', this)">상세페이지 포트폴리오</button>
+  <button class="main-tab" onclick="switchMainTab('website', this)">홈페이지 제작 포트폴리오</button>
 </div>
 
-<section class="portfolio-section">
-  <div class="portfolio-grid" id="portfolioGrid">
-    </div>
-</section>
+<!-- ── 상세페이지 섹션 ── -->
+<div id="section-detail">
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filterCategory('all', event)">전체보기</button>
+    <button class="filter-btn" onclick="filterCategory('hospital', event)">병원·의원</button>
+    <button class="filter-btn" onclick="filterCategory('diet', event)">다이어트·식품</button>
+    <button class="filter-btn" onclick="filterCategory('pt', event)">헬스·PT</button>
+    <button class="filter-btn" onclick="filterCategory('academy', event)">학원·교육</button>
+    <button class="filter-btn" onclick="filterCategory('beauty', event)">피부·뷰티</button>
+  </div>
+  <section class="portfolio-section">
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </section>
+</div>
 
+<!-- ── 홈페이지 제작 섹션 ── -->
+<div id="section-website" style="display:none">
+  <div class="web-portfolio-section">
+    <div class="web-s-header">
+      <div>
+        <div class="web-s-label">Website Portfolio</div>
+        <div class="web-s-title">홈페이지 제작</div>
+      </div>
+      <div class="web-s-count" id="web-count">00</div>
+    </div>
+    <div class="web-grid" id="webGrid"></div>
+  </div>
+</div>
+
+<!-- 상세페이지 모달 -->
 <div class="modal" id="portfolioModal" onclick="closeModal()">
   <div class="modal-container" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    
     <div class="modal-viewer">
       <img id="m-long-img" src="" alt="상세페이지 풀 이미지">
     </div>
-    
     <div class="modal-sidebar">
       <div class="m-meta-top">
         <div class="m-tag" id="m-tag">HOSPITAL</div>
         <h2 class="m-title" id="m-title">프로젝트 타이틀</h2>
-        <p class="m-desc" id="m-desc">프로젝트 상세 설명 및 기획 의도가 들어가는 영역입니다.</p>
-        <ul class="m-features" id="m-features">
-          </ul>
+        <p class="m-desc" id="m-desc"></p>
+        <ul class="m-features" id="m-features"></ul>
       </div>
       <div class="m-actions">
         <button class="btn-modal-cta" onclick="location.href='#'">
@@ -71,105 +200,156 @@
 </footer>
 
 <script>
-// ── PORTFOLIO DATA (실제 이미지 경로 및 내용으로 변경하시면 됩니다) ──
+// ── 상세페이지 DATA ──
 const PORTFOLIO_DATA = [
   {
-    id: 1,
-    category: 'hospital',
+    id: 1, category: 'hospital',
     title: '다이어트 이벤트 상세페이지',
     desc: '의료법을 준수하면서도 환자의 심리적 장벽을 낮추는 직관적인 인포그래픽 기획 및 신뢰감을 주는 딥블루 톤앤매너 디자인.',
-    imgSrc: 'images/sub_01.jpg', // 카드 썸네일용 (정방형 크롭 또는 와이드)
-    longImgSrc: 'images/cont_01.jpg', // 모달 내부 세로형 풀 이미지 경로
+    imgSrc: 'images/sub_01.jpg', longImgSrc: 'images/cont_01.jpg',
     features: ['신뢰감을 높이는 전문 의료진 섹션 컴포넌트 강화', '복잡한 치료 프로세스를 3단계 가이드 디자인으로 시각화', '후기 데이터 시각 중심 레이아웃 재배치']
   },
   {
-    id: 2,
-    category: 'diet',
+    id: 2, category: 'diet',
     title: '건강기능 식품 사군자 상세페이지',
     desc: '소비자의 강력한 페인 포인트(Pain Point)를 자극하는 서두 기획과 트렌디한 gif 배치를 통해 전환 유도.',
-    imgSrc: 'images/sub_02.gif',
-    longImgSrc: 'images/cont_02.jpg',
+    imgSrc: 'images/sub_02.gif', longImgSrc: 'images/cont_02.jpg',
     features: ['스마트폰 한 화면 안에 들어오는 강렬한 후킹 카피 배치', '성분 비교 분석표를 미니멀한 비교 표 그리드로 가독성 확보', '구매 전환을 자극하는 실시간 한정 수량 패키지 연출']
   },
   {
-    id: 3,
-    category: 'diet',
+    id: 3, category: 'diet',
     title: '광동 침향환 출시 상세페이지',
     desc: '고급 브랜드의 아이덴티티를 살리기 위해 블랙 골드 디자인과 미니멀 디자인 감성 빌드.',
-    imgSrc: 'images/sub_03.gif',
-    longImgSrc: 'images/cont_03.jpg',
+    imgSrc: 'images/sub_03.gif', longImgSrc: 'images/cont_03.jpg',
     features: ['고화질 텍스처 및 제형 컷 중심의 하이엔드 레이아웃', '임상 시험 완료 데이터 그래프를 감각적인 수치 인포그래픽화', '스토어팜/자사몰 연동에 최적화된 모바일 반응형 폰트 비율']
   },
   {
-    id: 4,
-    category: 'beauty',
+    id: 4, category: 'beauty',
     title: '프리미엄 화려화 이벤트 페이지',
     desc: '구매 전환을 자극하는 실시간 한정 수량 패키지 기획과 밝은 계열의 색상과 포인트 컬러를 통해 고급스러운 강조',
-    imgSrc: 'images/sub_04.gif',
-    longImgSrc: 'images/cont_04.jpg',
-    features: ['gif를 사용하여 구매 전환을 자극하여 디비 수집에 용의 , 가독성을 높이는 디자인을 하여 구매유도']
+    imgSrc: 'images/sub_04.gif', longImgSrc: 'images/cont_04.jpg',
+    features: ['gif를 사용하여 구매 전환을 자극하여 디비 수집에 용의, 가독성을 높이는 디자인을 하여 구매유도']
   },
-{
-    id: 5,
-    category: 'beauty',
+  {
+    id: 5, category: 'beauty',
     title: '넷플릭스 감성 시네마틱 프로모션 랜딩페이지',
     desc: '강렬한 레드 톤과 범죄 스릴러 무드를 기반으로 제작된 시네마틱 랜딩페이지. 넷플릭스 오리지널 포스터 감성을 재해석하여 브랜드의 긴장감과 몰입도를 극대화한 콘텐츠 디자인.',
-    imgSrc: 'images/sub_05.jpg',
-    longImgSrc: 'images/cont_05.jpg',
-    features: [
-      '다크 레드 컬러와 입체 타이포를 활용해 넷플릭스 오리지널 포스터급 몰입형 비주얼 구현',
-      '스크롤 흐름에 따라 긴장감을 높이는 시네마틱 레이아웃 설계로 체류시간 및 집중도 강화',
-      '강렬한 메인 키비주얼과 영화 예고편 스타일 연출을 통해 브랜드 세계관과 컨셉 전달력 극대화'
-  ]
-},
-{
-    id: 6,
-    category: 'diet',
+    imgSrc: 'images/sub_05.jpg', longImgSrc: 'images/cont_05.jpg',
+    features: ['다크 레드 컬러와 입체 타이포를 활용해 넷플릭스 오리지널 포스터급 몰입형 비주얼 구현', '스크롤 흐름에 따라 긴장감을 높이는 시네마틱 레이아웃 설계로 체류시간 및 집중도 강화', '강렬한 메인 키비주얼과 영화 예고편 스타일 연출을 통해 브랜드 세계관과 컨셉 전달력 극대화']
+  },
+  {
+    id: 6, category: 'diet',
     title: '호당원 프리미엄 골드 건강식품 랜딩페이지',
-    desc: '식후 급격하게 치솟는 혈당의 페인 포인트(Pain Point)를 속도감 있는 그래픽 연출로 시각화. 강렬한 레드 톤앤매너와 직관적인 타이포그래피를 통해 구매 전환율을 높인 기획형 페이지.',
-    imgSrc: 'images/sub_06.gif',
-    longImgSrc: 'images/cont_06.jpg',
-    features: [
-        '식후 무섭게 오르는 혈당 스파이크를 다이내믹한 GIF 모션으로 연출하여 타겟의 위기감과 몰입도 극대화',
-        '패키지 강조와 동시에 한정 혜택(3+1, 최저가 프로모션) 섹션을 하단에 배치하여 즉각적인 DB 수집 유도',
-        '강렬한 컬러 대비와 굵직한 서체 디자인을 활용하여 모바일 환경에서도 가독성과 메시지 전달력 확보'
-      ]
-},
-{
-    id: 7,
-    category: 'hospital',
+    desc: '식후 급격하게 치솟는 혈당의 페인 포인트(Pain Point)를 속도감 있는 그래픽 연출로 시각화.',
+    imgSrc: 'images/sub_06.gif', longImgSrc: 'images/cont_06.jpg',
+    features: ['식후 무섭게 오르는 혈당 스파이크를 다이내믹한 GIF 모션으로 연출하여 타겟의 위기감과 몰입도 극대화', '패키지 강조와 동시에 한정 혜택(3+1, 최저가 프로모션) 섹션을 하단에 배치하여 즉각적인 DB 수집 유도', '강렬한 컬러 대비와 굵직한 서체 디자인을 활용하여 모바일 환경에서도 가독성과 메시지 전달력 확보']
+  },
+  {
+    id: 7, category: 'diet',
     title: '광동 녹황당황칠 프리미엄 브랜드 랜딩페이지',
     desc: '대기업 브랜드의 신뢰도를 극대화하는 딥그린&골드 컬러 시스템 빌드. 중장년층 타겟의 건강 고민을 자극하는 혈관 그래픽 기획과 실제 구매 리뷰, 실시간 DB 수집 영역을 유기적으로 연결하여 높은 전환 도달률을 기록한 하이엔드 퍼널 페이지.',
-    imgSrc: 'images/sub_07.jpg',
-    longImgSrc: 'images/cont_07.jpg',
-    features: [
-          '혈관 내 노폐물 축적 과정을 직관적인 비주얼로 연출하여 제품의 필요성과 타겟의 문제의식을 강력하게 유도',
-          '신뢰도를 높이는 실제 사용자 중심의 포토 리뷰 섹션과 체크리스트 컴포넌트를 배치해 텍스트 가독성 및 신뢰감 확보',
-          '상·하단에 전략적으로 배치된 한정 혜택 프로모션 가이드와 원클릭 실시간 신청 폼(CTA) 설계로 이탈 없는 즉각적인 디비 수집 환경 구축'
-     ]
-},
+    imgSrc: 'images/sub_07.jpg', longImgSrc: 'images/cont_07.jpg',
+    features: ['혈관 내 노폐물 축적 과정을 직관적인 비주얼로 연출하여 제품의 필요성과 타겟의 문제의식을 강력하게 유도', '신뢰도를 높이는 실제 사용자 중심의 포토 리뷰 섹션과 체크리스트 컴포넌트를 배치해 텍스트 가독성 및 신뢰감 확보', '상·하단에 전략적으로 배치된 한정 혜택 프로모션 가이드와 원클릭 실시간 신청 폼(CTA) 설계로 이탈 없는 즉각적인 디비 수집 환경 구축']
+  },
+];
 
+// ── 홈페이지 제작 DATA ──
+// thumbSrc: 스크린샷 이미지 경로, url: 라이브 URL로 교체하세요
+const WEBSITE_DATA = [
+  {
+    id: 'w1', title: 'Studio O.D.D 공식 홈페이지',
+    desc: '전환 구조 설계 기반의 에이전시 소개 사이트. 다크 에디토리얼 무드와 애니메이션 중심의 브랜딩.',
+    tags: ['브랜드 홈페이지'], liveTag: 'live', type: 'Brand Website',
+    thumbSrc: 'images/web_01.jpg', url: 'https://odd-studio.vercel.app'
+  },
+  {
+    id: 'w2', title: '병원 상담 랜딩페이지',
+    desc: '원장 신뢰형 구조 + 즉시 예약 CTA 중심. 광고 연동 최적화 랜딩.',
+    tags: ['랜딩페이지', '병원·의원'], liveTag: 'live', type: 'Landing Page',
+    thumbSrc: 'images/web_02.jpg', url: 'template/hospital_01.html'
+  },
+  {
+    id: 'w3', title: '헬스·PT 등록 전환 사이트',
+    desc: '트레이너 소개·수강 후기·PT 패키지 비교. 카카오 즉시연결 포함.',
+    tags: ['랜딩페이지', '헬스·PT'], liveTag: 'live', type: 'Landing Page',
+    thumbSrc: 'images/web_03.jpg', url: 'template/pt_gym.html'
+  },
+  {
+    id: 'w4', title: '다이어트 체험단 모집 랜딩',
+    desc: '한정 체험단 배너 + 카운트다운 + 후기 카드 구조. 긴박감 유도 설계.',
+    tags: ['랜딩페이지', '다이어트'], liveTag: 'live', type: 'Landing Page',
+    thumbSrc: 'images/web_04.jpg', url: 'template/diet_trial.html'
+  },
+  {
+    id: 'w5', title: '부동산 신뢰형 상담 사이트',
+    desc: '매물 카드 + 공인중개사 소개 + 즉시 전화·카카오 플로팅 버튼.',
+    tags: ['랜딩페이지', '부동산'], liveTag: 'live', type: 'Landing Page',
+    thumbSrc: 'images/web_05.jpg', url: 'template/estate_trust.html'
+  },
+  {
+    id: 'w6', title: '쇼핑몰 & 예약 시스템',
+    desc: '결제·예약 연동 풀스택 프로젝트. 현재 제작 중입니다.',
+    tags: ['쇼핑몰'], liveTag: 'dev', type: 'E-Commerce',
+    thumbSrc: '', url: ''
+  },
 ];
 
 const CATEGORY_MAP = {
-  hospital: '병원·의원',
-  diet: '다이어트·식품',
-  pt: '헬스·PT',
-  academy: '학원·교육',
-  beauty: '피부·뷰티'
+  hospital: '병원·의원', diet: '다이어트·식품',
+  pt: '헬스·PT', academy: '학원·교육', beauty: '피부·뷰티'
 };
 
-// ── RENDER CARDS ──
+// ── 메인 탭 전환 ──
+function switchMainTab(tab, btn) {
+  document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('section-detail').style.display  = tab === 'detail'  ? '' : 'none';
+  document.getElementById('section-website').style.display = tab === 'website' ? '' : 'none';
+  if (tab === 'website') renderWebPortfolio();
+}
+
+// ── 홈페이지 포트폴리오 렌더 ──
+function renderWebPortfolio() {
+  const grid = document.getElementById('webGrid');
+  const liveCount = WEBSITE_DATA.filter(w => w.liveTag === 'live').length;
+  document.getElementById('web-count').textContent = String(liveCount).padStart(2, '0');
+
+  grid.innerHTML = WEBSITE_DATA.map(w => {
+    const tagHtml = w.tags.map(t => `<span class="web-card-tag">${t}</span>`).join('');
+    const liveBadge = w.liveTag === 'live'
+      ? `<span class="web-card-tag live">● LIVE</span>`
+      : `<span class="web-card-tag dev">▲ 준비중</span>`;
+    const thumb = w.thumbSrc
+      ? `<img src="${w.thumbSrc}" alt="${w.title}" onerror="this.src='https://via.placeholder.com/800x500/141414/333333?text=STUDIO+O.D.D'">`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#333;font-size:13px;letter-spacing:2px;">COMING SOON</div>`;
+    return `
+      <a href="${w.url || '#'}" ${w.url ? 'target="_blank" rel="noopener"' : ''} class="web-card${!w.url ? ' coming-soon' : ''}">
+        <div class="web-card-thumb">
+          ${thumb}
+          <div class="web-card-overlay"><span class="web-card-link-icon">↗</span></div>
+        </div>
+        <div class="web-card-info">
+          <div class="web-card-tags">${liveBadge}${tagHtml}</div>
+          <h3 class="web-card-title">${w.title}</h3>
+          <p class="web-card-desc">${w.desc}</p>
+          <div class="web-card-footer">
+            <span class="web-card-type">${w.type}</span>
+            <span class="web-card-arrow">↗</span>
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+// ── 상세페이지 렌더 ──
 function renderPortfolio(filter = 'all') {
   const grid = document.getElementById('portfolioGrid');
-  const filteredData = filter === 'all' ? PORTFOLIO_DATA : PORTFOLIO_DATA.filter(item => item.category === filter);
-  
-  if (filteredData.length === 0) {
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--muted);">준비 중인 포트폴리오입니다.</div>`;
+  const data = filter === 'all' ? PORTFOLIO_DATA : PORTFOLIO_DATA.filter(i => i.category === filter);
+  if (data.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);">준비 중인 포트폴리오입니다.</div>`;
     return;
   }
-  
-  grid.innerHTML = filteredData.map(item => `
+  grid.innerHTML = data.map(item => `
     <div class="portfolio-card" onclick="openModal(${item.id})">
       <div class="card-img-wrap">
         <img class="card-img" src="${item.imgSrc}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/600x800/141414/ffffff?text=STUDIO+O.D.D'">
@@ -184,46 +364,41 @@ function renderPortfolio(filter = 'all') {
   `).join('');
 }
 
-// ── FILTER TRIGGER ──
 function filterCategory(category, event) {
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
   renderPortfolio(category);
 }
 
-// ── MODAL SYSTEM ──
+// ── 모달 ──
 function openModal(id) {
   const item = PORTFOLIO_DATA.find(p => p.id === id);
   if (!item) return;
-  
   document.getElementById('m-tag').textContent = CATEGORY_MAP[item.category] || '기타';
   document.getElementById('m-title').textContent = item.title;
   document.getElementById('m-desc').textContent = item.desc;
-  
-  // 기획 핵심 포인트 바인딩
-  const featuresList = document.getElementById('m-features');
-  featuresList.innerHTML = item.features.map(f => `<li>${f}</li>`).join('');
-  
-  // 이미지 매칭 및 상단 스크롤 초기화
-  const longImg = document.getElementById('m-long-img');
-  longImg.src = item.longImgSrc;
+  document.getElementById('m-features').innerHTML = item.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('m-long-img').src = item.longImgSrc;
   document.querySelector('.modal-viewer').scrollTop = 0;
-  
   document.getElementById('portfolioModal').classList.add('open');
-  document.body.style.overflow = 'hidden'; // 부모 페이지 스크롤 방지
+  document.body.style.overflow = 'hidden';
 }
-
 function closeModal() {
   document.getElementById('portfolioModal').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-// 초기 로딩 실행
+// ── URL 파라미터로 탭 자동 전환 (?tab=website) ──
 window.addEventListener('DOMContentLoaded', () => {
   renderPortfolio('all');
+  const params = new URLSearchParams(location.search);
+  if (params.get('tab') === 'website') {
+    switchMainTab('website', document.querySelectorAll('.main-tab')[1]);
+  }
 });
 </script>
-<script src="js/header.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/header.js"></script>
 </body>
 </html>
