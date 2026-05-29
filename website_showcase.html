@@ -480,8 +480,8 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── HEADER NAV ACTIVE (website 페이지 인식용) ──
 document.addEventListener('DOMContentLoaded', () => {
-  const navLinks = document.querySelectorAll('.nav-links a');
-  navLinks.forEach(a => a.classList.remove('active'));
+  // 기존에 꼬여서 지우던 로직은 없애고, 내 서비스 탭 ID에만 확실하게 불을 켭니다.
+  document.getElementById('nav-website')?.classList.add('active');
 });
 </script>
 </body>
