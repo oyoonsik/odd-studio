@@ -146,6 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.style.overflow = '';
   }
 
+   // ↓ 이 두 줄 추가
+  window.openHdModal = openHdModal;
+  window.closeHdModal = closeHdModal;
+
   ctaBtn.addEventListener('click', openHdModal);
   closeBtn.addEventListener('click', closeHdModal);
   overlay.addEventListener('click', closeHdModal);
