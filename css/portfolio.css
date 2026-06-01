@@ -185,7 +185,7 @@ footer span { color: var(--accent); font-family: var(--font-display); font-size:
   padding: 0 48px;
   background: #0a0a0a;
   position: sticky;
-  top: 72px;
+  top: 59px;
   z-index: 100;
 }
 .main-tab {
