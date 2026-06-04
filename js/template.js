@@ -1,3 +1,5 @@
+
+window.openGlobalModal = openModal; // main.js의 openModal을 공유
 /* ── 카드 데이터 ── */
 const cards = [
   { id:0, cat:'hospital', title:'원장 신뢰형 병원 상담 랜딩', desc:'원장 소개·수상 이력·환자 후기 섹션이 핵심. 신뢰 기반 상담 예약 전환에 최적화된 구조입니다.', tag:'병원·의원', free:true, features:['원장 프로필 + 수상·인증 섹션','환자 후기 카드 슬라이더','카카오 채널 즉시연결 CTA','모바일 최적화 완료'] },
