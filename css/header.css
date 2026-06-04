@@ -1,66 +1,182 @@
- /* 공통 헤더 스타일 강제 주입 */
-      .global-header {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        z-index: 99999;
-        background: rgba(10, 10, 10, 0.88);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        max-width: 100%;
-        margin: 0 auto;
-      }
-      .nav-logo {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 28px;
-        letter-spacing: 0.04em;
-        font-weight: bold;
-        color: #f5f5f0;
-        text-decoration: none;
-      }
-      .nav-logo span { 
-        color: #c8ff00; 
-      }
-      .nav-links { 
-        display: flex; 
-        gap: 32px; 
-        list-style: none; 
-        font-size: 14px; 
-        font-weight: 500;
-        margin: 0;
-        padding: 0;
-      }
-      .nav-links a { 
-        color: #666; 
-        text-decoration: none;
-        transition: color 0.25s; 
-      }
-      .nav-links a:hover, .nav-links a.active { 
-        color: #c8ff00; 
-      }
-      .nav-cta {
-        font-size: 13px; 
-        font-weight: 700; 
-        background: #c8ff00; 
-        color: #0a0a0a;
-        padding: 10px 20px; 
-        border-radius: 50px; 
-        text-decoration: none;
-        transition: transform 0.2s;
-      }
-      .nav-cta:hover { 
-        transform: scale(1.05); 
-      }
-      
-      /* 모바일 대응 */
-      @media (max-width: 768px) {
-        .nav-container { padding: 18px 20px; }
-        .nav-links { display: none; }
-      }
+/* 공통 헤더 스타일 */
+.global-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 99999;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  font-weight: bold;
+  color: #f5f5f0;
+  text-decoration: none;
+}
+.nav-logo span {
+  color: #c8ff00;
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: #c8ff00;
+}
+.nav-cta {
+  font-size: 13px;
+  font-weight: 700;
+  background: #c8ff00;
+  color: #0a0a0a;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.nav-cta:hover {
+  transform: scale(1.05);
+}
+
+/* 햄버거 버튼 */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 100001;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #f5f5f0;
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(.23,1,.32,1), opacity 0.25s ease, width 0.3s ease;
+  transform-origin: center;
+}
+
+/* 열렸을 때 X 형태 */
+.nav-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.nav-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* 모바일 드로어 */
+.nav-drawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 10, 10, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100000;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 32px 48px;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.23,1,.32,1);
+  pointer-events: none;
+}
+.nav-drawer.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.nav-drawer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.nav-drawer ul li {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.nav-drawer ul li a {
+  display: block;
+  padding: 22px 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #666;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  transition: color 0.2s, padding-left 0.25s ease;
+}
+.nav-drawer ul li a:hover,
+.nav-drawer ul li a.active {
+  color: #c8ff00;
+  padding-left: 8px;
+}
+.nav-drawer-cta {
+  margin-top: 40px;
+  display: inline-block;
+  background: #c8ff00;
+  color: #0a0a0a;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.nav-drawer-cta:hover {
+  transform: scale(1.04);
+}
+.nav-drawer-bottom {
+  position: absolute;
+  bottom: 40px;
+  left: 32px;
+  font-size: 12px;
+  color: #444;
+  letter-spacing: 1px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .nav-container { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-drawer { display: flex; }
+}
