@@ -282,6 +282,42 @@ footer span { color: var(--accent); font-family: var(--font-display); font-size:
 .web-card-arrow { font-size: 20px; color: #c8ff00; }
 .web-card.coming-soon { opacity: 0.4; pointer-events: none; }
 
+/* 작업자 표시 */
+.card-designer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #888;
+}
+.card-designer::before {
+  content: '✏️';
+  font-size: 10px;
+}
+.card-designer span {
+  color: #f5a623;
+  font-weight: 600;
+}
+
+/* 모달 작업자 */
+.m-designer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 7px 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #888;
+}
+.m-designer span {
+  color: #f5a623;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .main-tab-wrap { padding: 0 20px; top: 60px; }
   .main-tab { padding: 14px 16px; font-size: 13px; }
