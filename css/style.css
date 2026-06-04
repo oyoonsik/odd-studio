@@ -341,44 +341,6 @@ footer {
   animation: kkPulse 2.4s ease-out infinite;
 }
 
-/* MODAL COMPONENT */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 10000;
-  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-  display: none; align-items: center; justify-content: center; opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.modal-overlay.open { display: flex; opacity: 1; }
-.modal-box {
-  width: 100%; max-width: 480px; background: var(--gray);
-  border: 1px solid var(--gray2); border-radius: 4px; padding: 44px;
-  position: relative; transform: translateY(20px); transition: transform 0.3s ease;
-}
-.modal-overlay.open .modal-box { transform: translateY(0); }
-.modal-close {
-  position: absolute; top: 24px; right: 24px; font-size: 22px; color: var(--muted);
-  cursor: none; background: none; border: none; transition: color 0.2s;
-}
-.modal-close:hover { color: var(--white); }
-.modal-title { font-family: var(--font-display); font-size: 36px; letter-spacing: 1px; margin-bottom: 6px; color: var(--white); }
-.modal-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 32px; font-weight: 400; }
-
-.form-group { margin-bottom: 24px; display: flex; flex-direction: column; gap: 10px; }
-.form-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--white); text-transform: uppercase; }
-.form-input, .form-select {
-  width: 100%; background: var(--black); border: 1px solid var(--gray2); padding: 16px;
-  color: var(--white); font-family: var(--font-body); font-size: 14px; outline: none;
-  transition: border-color 0.2s; border-radius: 2px;
-}
-.form-input:focus, .form-select:focus { border-color: var(--accent); }
-.form-select { appearance: none; cursor: none; }
-.btn-submit {
-  width: 100%; padding: 18px; background: var(--accent); color: var(--black);
-  font-family: var(--font-body); font-size: 14px; font-weight: 700; border: none;
-  border-radius: 2px; margin-top: 12px; transition: opacity 0.2s; cursor: none;
-}
-.btn-submit:hover { opacity: 0.88; }
-
 /* REVEAL */
 .reveal { opacity:0; transform:translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity:1; transform:none; }
@@ -414,5 +376,5 @@ footer {
   footer { grid-template-columns: 1fr; gap: 20px; padding: 48px 20px 32px; }
   .f-right { text-align: left; }
   #kakao-float { bottom: 20px; right: 16px; }
-  .modal-box { padding: 36px 24px; margin: 16px; }
+
 }
