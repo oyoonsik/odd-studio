@@ -1,42 +1,44 @@
-// api/notion-proxy.js
-// Vercel Serverless Function - Notion API CORS 우회용
-// 이 파일을 프로젝트 루트의 /api/ 폴더에 넣어주세요
+export const config = { runtime: 'edge' };
 
-export default async function handler(req, res) {
-  // CORS 헤더
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+export default async function handler(req) {
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return new Response(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response('Method not allowed', { status: 405 });
   }
 
-  const { url, body, token } = req.body;
+  const { url, body, token } = await req.json();
 
-  // 보안: Notion API URL만 허용
   if (!url.startsWith('https://api.notion.com/')) {
-    return res.status(403).json({ error: 'Forbidden' });
+    return new Response('Forbidden', { status: 403 });
   }
 
-  try {
-    const notionRes = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+  const notionRes = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
 
-    const data = await notionRes.json();
-    return res.status(notionRes.status).json(data);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
+  const data = await notionRes.json();
+
+  return new Response(JSON.stringify(data), {
+    status: notionRes.status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
 }
