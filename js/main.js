@@ -62,12 +62,57 @@ function closeModal() {
   if (modal) modal.style.display = 'none';
 }
 
+// 수정 후 완전히 교체할 submitConsultation 함수
 async function submitConsultation(e) {
   e.preventDefault();
-  alert('✅ 상담 신청이 완료되었습니다!');
-  closeModal();
-}
 
+  // 버튼 비활성화 (더블 클릭 방지)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerText = '신청 중...';
+  }
+
+  // 폼 데이터 가져오기
+  const name = document.getElementById('c-name').value;
+  const phone = document.getElementById('c-phone').value;
+  const email = document.getElementById('c-email').value;
+  const industry = document.getElementById('c-industry').value;
+
+  try {
+    // Supabase DB(consultations 테이블)에 데이터 삽입
+    const { error } = await db.from(TABLE).insert([
+      { 
+        name: name, 
+        phone: phone, 
+        email: email, 
+        industry: industry, 
+        status: 'wait', // 기본 상태는 대기 중
+        memo: '' 
+      }
+    ]);
+
+    if (error) {
+      throw error;
+    }
+
+    alert('✅ 상담 신청이 정상적으로 완료되었습니다!');
+    closeModal();
+    
+    // 폼 초기화
+    document.getElementById('consultationForm').reset();
+
+  } catch (err) {
+    console.error('상담 신청 오류:', err);
+    alert('❌ 신청 중 오류가 발생했습니다. 다시 시도해 주세요: ' + err.message);
+  } finally {
+    // 버튼 상태 복구
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = '상담 신청하기 →';
+    }
+  }
+}
 // ==================== 기존 기능들 ====================
 
 function initCursor() {
