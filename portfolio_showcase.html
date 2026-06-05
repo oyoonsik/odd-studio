@@ -179,10 +179,12 @@ function parseNotionItem(page) {
     category:    categoryKey,
     categoryLabel,
     tags:        getMulti('tag'),
-    imgSrc:      getFile('thumbnail') || getFile('image'),
-    longImgSrc:  getFile('image'),
-    desc:        getText('desc') || getText('description') || '',
-    features:    [], // 노션에 features 컬럼 추가 시 여기 연결
+    imgSrc:      getFile('thumbnail'),           // 카드 썸네일
+    longImgSrc:  getFile('image'),               // 모달 풀이미지 (없으면 모달에 이미지 숨김)
+    desc:        getText('desc') || '',
+    features:    getText('features')
+                   ? getText('features').split(',').map(s => s.trim()).filter(Boolean)
+                   : [],
     designer:    getText('worker'),
     link:        getUrl('link'),
   };
@@ -251,8 +253,16 @@ function openDetailModal(idx, filter) {
   else { dw.style.display = 'none'; }
 
   const longImg = document.getElementById('m-long-img');
-  longImg.src = item.longImgSrc || item.imgSrc || '';
-  longImg.style.display = longImg.src ? 'block' : 'none';
+  const viewer  = document.querySelector('.modal-viewer');
+  if (item.longImgSrc) {
+    longImg.src = item.longImgSrc;
+    longImg.style.display = 'block';
+    viewer.style.display = '';
+  } else {
+    longImg.src = '';
+    longImg.style.display = 'none';
+    viewer.style.display = 'none';
+  }
 
   document.querySelector('.modal-viewer').scrollTop = 0;
   document.getElementById('portfolioModal').classList.add('open');
