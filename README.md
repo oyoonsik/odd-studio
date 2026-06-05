@@ -9,4 +9,4 @@
 단 한 번의 제작으로 끝나는 일회성 관계가 아닌, 안정적인 지속 가능형 유지보수 시스템을 통해 당신의 비즈니스 여정에 가장 든든하고 단단한 파트너로 함께하겠습니다.
 
 
-https://odd-studio.vercel.app/admin_dashboard.html 관리자 페이지
+https://www.studiodd.co.kr/admin_dashboard 관리자 페이지
