@@ -10,3 +10,5 @@
 
 
 https://www.studiodd.co.kr/admin_dashboard 관리자 페이지
+
+https://www.studiodd.co.kr/portfolio_admin 어드민 랜딩
