@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <a href="index.html" class="nav-logo">STUDIO <span>O.D.D</span></a>
         <ul class="nav-links">
           <li><a href="index.html" id="nav-home">HOME</a></li>
-          <li><a href="portfolio_showcase.html" id="nav-portfolio">디자인 포트폴리오</a></li>
-          <li><a href="website_showcase.html" id="nav-website">홈페이지 제작 &amp; 템플릿</a></li>
+          <li><a href="portfolio_showcase.html" id="nav-portfolio">포트폴리오</a></li>
+          <li><a href="price_service.html" id="nav-price">디자인 서비스 이용안내</a></li>
+          <li><a href="website_showcase.html" id="nav-website">홈페이지 서비스 이용안내</a></li>
           <li><a href="designer_lineup.html" id="nav-designer">전문가 라인업</a></li>
         </ul>
         <a href="#" class="nav-cta header-trigger-btn">상담 문의하기</a>
@@ -24,8 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="nav-drawer" id="nav-drawer">
       <ul>
         <li><a href="index.html" id="drawer-home">HOME</a></li>
-        <li><a href="portfolio_showcase.html" id="drawer-portfolio">디자인 포트폴리오</a></li>
-        <li><a href="website_showcase.html" id="drawer-website">홈페이지 제작 &amp; 템플릿</a></li>
+        <li><a href="portfolio_showcase.html" id="drawer-portfolio">포트폴리오</a></li>
+        <li><a href="price_service.html" id="drawer-price">디자인 서비스 이용안내</a></li>
+        <li><a href="website_showcase.html" id="drawer-website">홈페이지 서비스 이용안내</a></li>
         <li><a href="designer_lineup.html" id="drawer-designer">전문가 라인업</a></li>
       </ul>
       <a href="#" class="nav-drawer-cta header-trigger-btn">상담 문의하기</a>
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "index.html": ["nav-home", "drawer-home"],
     "": ["nav-home", "drawer-home"],
     "portfolio_showcase.html": ["nav-portfolio", "drawer-portfolio"],
+    "price_service.html": ["nav-price", "drawer-price"],
     "designer_lineup.html": ["nav-designer", "drawer-designer"],
     "website_showcase.html": ["nav-website", "drawer-website"],
   };
