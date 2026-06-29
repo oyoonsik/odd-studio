@@ -5,11 +5,12 @@ const NOTION_TOKEN = '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';
 const DATABASE_ID  = '375583e758ab8039bd0cec1c2ee3144d';
 
 const CAT_KEY_MAP = {
-  '병원·의원': 'hospital',
   '다이어트·식품': 'diet',
   '헬스·PT': 'pt',
   '학원·교육': 'academy',
   '피부·뷰티': 'beauty',
+  '이벤트·프로모션': 'promotion',
+  '인쇄·기타': 'editorial',
 };
 
 // =============================================
