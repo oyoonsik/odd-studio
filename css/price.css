@@ -1,0 +1,467 @@
+/* ============================================================
+   price.css — Studio O.D.D | 디자인 서비스 & 이용 안내
+   Design system: dark bg / --accent:#c8ff00 / Bebas Neue + Noto Sans KR
+   ============================================================ */
+
+:root {
+  --black:  #0a0a0a;
+  --white:  #f5f5f0;
+  --accent: #c8ff00;
+  --accent2:#ff4d00;
+  --gray:   #141414;
+  --gray2:  #222;
+  --muted:  #a0a0a0;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Noto Sans KR', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ────────────────────────────────────────
+   HERO
+──────────────────────────────────────── */
+.price-hero {
+  padding: 100px 40px 72px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.price-hero .hero-tag {
+  font-family: var(--font-display);
+  color: var(--accent);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+
+.price-hero h1 {
+  font-size: clamp(32px, 5.5vw, 60px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+  margin-bottom: 24px;
+}
+
+.price-hero h1 span {
+  color: var(--accent);
+}
+
+.price-hero p {
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* ────────────────────────────────────────
+   MAIN CONTAINER
+──────────────────────────────────────── */
+.price-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ────────────────────────────────────────
+   SECTION TITLE
+──────────────────────────────────────── */
+.price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section-title-wrap {
+  border-bottom: 1px solid var(--gray2);
+  padding-bottom: 24px;
+}
+
+.section-title-wrap h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.section-title-wrap p {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+/* ────────────────────────────────────────
+   PRICE CARDS (01. WEB DETAIL PAGE)
+──────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--gray2);
+  border: 1px solid var(--gray2);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.price-card {
+  background: var(--gray);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.price-card:hover {
+  background: #1a1a1a;
+}
+
+/* RECOMMEND 배지 */
+.price-card.featured {
+  background: #111;
+}
+
+.badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: var(--accent);
+  color: var(--black);
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+.card-tier {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.price-card.featured .card-tier {
+  color: var(--accent);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+.card-cost {
+  font-family: var(--font-display);
+  font-size: 52px;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  line-height: 1;
+  border-top: 1px solid var(--gray2);
+  padding-top: 20px;
+  margin-top: 4px;
+}
+
+.price-card.featured .card-cost {
+  color: var(--accent);
+}
+
+.card-cost span {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+.card-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray2);
+}
+
+.card-features li {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+.card-features li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gray2);
+}
+
+.card-features li strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.price-card.featured .card-features li::before {
+  color: var(--accent);
+}
+
+/* ────────────────────────────────────────
+   PRICE TABLE (02. MARKETING & PRINT)
+──────────────────────────────────────── */
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid var(--gray2);
+  border-radius: 12px;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.price-table thead {
+  background: var(--gray2);
+}
+
+.price-table th {
+  padding: 18px 24px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.price-table tbody tr {
+  border-top: 1px solid var(--gray2);
+  background: var(--gray);
+  transition: background 0.2s;
+}
+
+.price-table tbody tr:hover {
+  background: #1a1a1a;
+}
+
+.price-table td {
+  padding: 22px 24px;
+  vertical-align: top;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tbl-name {
+  font-size: 15px !important;
+  font-weight: 700;
+  color: var(--white) !important;
+  white-space: nowrap;
+}
+
+.tbl-cost {
+  font-family: var(--font-display);
+  font-size: 20px !important;
+  color: var(--accent) !important;
+  white-space: nowrap;
+}
+
+/* ────────────────────────────────────────
+   NOTICE (03)
+──────────────────────────────────────── */
+.price-notice {
+  background: var(--gray);
+  border: 1px solid var(--gray2);
+  border-radius: 16px;
+  padding: 48px 40px;
+}
+
+.price-notice > h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray2);
+  letter-spacing: -0.01em;
+}
+
+.notice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.notice-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.notice-item p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.notice-item p strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ────────────────────────────────────────
+   CTA BAND
+──────────────────────────────────────── */
+.cta-band {
+  max-width: 1100px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: var(--accent);
+  border-radius: 16px;
+  padding: 48px 56px;
+}
+
+.cta-band h3 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 44px);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  color: var(--black);
+}
+
+.cta-band h3 em {
+  font-style: normal;
+  font-size: 0.75em;
+  opacity: 0.65;
+}
+
+.cta-band p {
+  font-size: 14px;
+  color: rgba(10,10,10,0.6);
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+.btn-cta {
+  flex-shrink: 0;
+  background: var(--black);
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 18px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.btn-cta:hover {
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+/* ────────────────────────────────────────
+   FOOTER
+──────────────────────────────────────── */
+footer {
+  background: var(--gray);
+  padding: 60px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+footer span {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+/* ────────────────────────────────────────
+   SCROLL REVEAL
+──────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ────────────────────────────────────────
+   RESPONSIVE
+──────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .notice-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .cta-band {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .price-hero {
+    padding: 80px 24px 56px;
+  }
+  .price-container {
+    padding: 0 20px 60px;
+    gap: 56px;
+  }
+  .price-card {
+    padding: 32px 24px;
+  }
+  .card-cost {
+    font-size: 40px;
+  }
+  .price-notice {
+    padding: 32px 24px;
+  }
+  .price-table th,
+  .price-table td {
+    padding: 16px;
+  }
+  .cta-band {
+    border-radius: 12px;
+    padding: 36px 24px;
+  }
+}
