@@ -1,68 +1,47 @@
 // =============================================
-// 🔧 Notion 설정
+// 🔧 Supabase 설정
 // =============================================
-const NOTION_TOKEN = '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';
-const DATABASE_ID  = '375583e758ab8039bd0cec1c2ee3144d';
-
-const CAT_KEY_MAP = {
-  '다이어트·식품': 'diet',
-  '헬스·PT': 'pt',
-  '학원·교육': 'academy',
-  '피부·뷰티': 'beauty',
-  '이벤트·프로모션': 'promotion',
-  '인쇄·기타': 'editorial',
-};
+const SUPABASE_URL  = 'https://zqiophoueasyjvwjapai.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
 
 // =============================================
-// Notion API 호출 (프록시 경유)
+// Supabase REST API 호출
 // =============================================
-async function fetchNotionPortfolio() {
-  const res = await fetch('/api/notion-proxy', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      token: NOTION_TOKEN,
-      url: `https://api.notion.com/v1/databases/${DATABASE_ID}/query`,
-      body: {
-        filter: { property: 'visible', checkbox: { equals: true } },
-        sorts: [{ timestamp: 'created_time', direction: 'descending' }]
+async function fetchSupabasePortfolio() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/portfolio?visible=eq.true&order=created_at.desc`,
+    {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
       }
-    })
-  });
-  if (!res.ok) throw new Error('proxy error ' + res.status);
+    }
+  );
+  if (!res.ok) throw new Error('Supabase fetch error ' + res.status);
   return await res.json();
 }
 
-function parseNotionItem(page) {
-  const p = page.properties;
-  const getText   = (k) => p[k]?.rich_text?.[0]?.plain_text || '';
-  const getTitle  = (k) => p[k]?.title?.[0]?.plain_text || '';
-  const getSelect = (k) => p[k]?.select?.name || '';
-  const getFile   = (k) => p[k]?.files?.[0]?.file?.url || p[k]?.files?.[0]?.external?.url || '';
-
-  const categoryLabel = getSelect('category');
-  const categoryKey   = CAT_KEY_MAP[categoryLabel] || 'etc';
-
+function parseSupabaseItem(row) {
   return {
-    id:           page.id,
-    title:        getTitle('이름') || getTitle('Name') || '제목 없음',
-    category:     categoryKey,
-    categoryLabel,
-    imgSrc:       getFile('thumbnail'),
-    longImgSrc:   getFile('image'),
-    desc:         getText('desc') || '',
-    features:     getText('features')
-                    ? getText('features').split(',').map(s => s.trim()).filter(Boolean)
-                    : [],
-    designer:     getText('worker'),
+    id:            row.id,
+    title:         row.title || '제목 없음',
+    category:      row.category || 'etc',
+    categoryLabel: row.category_label || '기타',
+    imgSrc:        row.thumbnail_url || '',
+    longImgSrc:    row.image_url || '',
+    desc:          row.desc || '',
+    features:      row.features
+                     ? row.features.split(',').map(s => s.trim()).filter(Boolean)
+                     : [],
+    designer:      row.worker || '',
   };
 }
 
 // =============================================
 // 상태
 // =============================================
-let NOTION_DATA   = [];
-let currentFilter = 'all';
+let PORTFOLIO_DATA = [];
+let currentFilter  = 'all';
 
 // =============================================
 // TAB 1 : 상세페이지
@@ -71,8 +50,8 @@ function renderDetail(filter = 'all') {
   currentFilter = filter;
   const grid = document.getElementById('portfolioGrid');
   const data = filter === 'all'
-    ? NOTION_DATA
-    : NOTION_DATA.filter(i => i.category === filter);
+    ? PORTFOLIO_DATA
+    : PORTFOLIO_DATA.filter(i => i.category === filter);
 
   if (!data.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#666;">준비 중인 포트폴리오입니다.</div>`;
@@ -105,8 +84,8 @@ function filterDetail(cat, e) {
 
 function openDetailModal(idx, filter) {
   const data = filter === 'all'
-    ? NOTION_DATA
-    : NOTION_DATA.filter(i => i.category === filter);
+    ? PORTFOLIO_DATA
+    : PORTFOLIO_DATA.filter(i => i.category === filter);
   const item = data[idx];
   if (!item) return;
 
@@ -238,8 +217,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   const grid = document.getElementById('portfolioGrid');
 
   try {
-    const data = await fetchNotionPortfolio();
-    NOTION_DATA = (data.results || []).map(parseNotionItem);
+    const rows = await fetchSupabasePortfolio();
+    PORTFOLIO_DATA = rows.map(parseSupabaseItem);
     renderDetail('all');
   } catch (err) {
     console.error(err);
