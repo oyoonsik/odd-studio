@@ -1,18 +1,19 @@
 // =============================================
 // 🔧 Supabase 설정
 // =============================================
-const P_SUPABASE_URL = 'https://zqiophoueasyjvwjapai.supabase.co';
-const P_SUPABASE_KEY = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
+const SUPABASE_URL  = 'https://zqiophoueasyjvwjapai.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
+
 // =============================================
 // Supabase REST API 호출
 // =============================================
 async function fetchSupabasePortfolio() {
   const res = await fetch(
-    `${P_SUPABASE_URL}/rest/v1/portfolio?visible=eq.true&order=created_at.desc`,
+    `${SUPABASE_URL}/rest/v1/portfolio?visible=eq.true&order=created_at.desc`,
     {
       headers: {
-        'apikey': P_SUPABASE_KEY,
-        'Authorization': `Bearer ${P_SUPABASE_KEY}`,
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
       }
     }
   );
@@ -134,41 +135,169 @@ function switchTab(tab, btn) {
 }
 
 // =============================================
-// TAB 2 : 홈페이지 제작
+// TAB 2 : 홈페이지 제작 (Supabase 연동)
 // =============================================
-const WEBSITE_DATA = [
-  { id:'w1', title:'지니앤솔루션 홈페이지', desc:'아임웹 기반으로 제작된 브랜드 홈페이지', tags:['브랜드 홈페이지'], liveTag:'live', type:'Brand Website', thumbSrc:'images/site_02.jpg', url:'https://geniensol.co.kr/' },
-  { id:'w2', title:'DB 어드민페이지', desc:'원장 신뢰형 구조 + 즉시 예약 CTA 중심. 광고 연동 최적화 랜딩.', tags:['어드민 페이지'], liveTag:'live', type:'Landing Page', thumbSrc:'images/site_01.jpg', url:'https://oyoonsik.github.io/landing-templates/admin_dashboard.html' },
-  { id:'w3', title:'창업문의 전환 사이트', desc:'창업 문의를 위한 디비 연동 랜딩페이지 시간.이름.전화번호.접수 버튼.', tags:['랜딩페이지', '창업페이지'], liveTag:'live', type:'Landing Page', thumbSrc:'images/site_03.jpg', url:'https://www.momstouch-franchise.com/gnd68b52c0fe22fe' },
-  { id:'w4', title:'광고 디비 문의 페이지', desc:'회사 디비 문의를 위한 페이지 디비·카카오 플로팅 버튼.', tags:['랜딩페이지'], liveTag:'live', type:'Landing Page', thumbSrc:'images/site_0.jpg', url:'https://oyoonsik.github.io/landing-templates/' },
-  { id:'w5', title:'브랜드 홈페이지', desc:'워드프레스 기반으로 만든 브랜드 홈페이지', tags:['회사홈페이지', '브랜드'], liveTag:'live', type:'Brand Website', thumbSrc:'images/site_04.jpg', url:'https://geniend.com/' },
-  { id:'w6', title:'블로그형식의 랜딩페이지', desc:'이미지화가 아닌 코드화 랜딩 + AI 기능과 DB 연동', tags:['랜딩페이지', 'DB연동', '반응형'], liveTag:'live', type:'E-Commerce', thumbSrc:'images/site_05.jpg', url:'https://www.ssogtime1.com/gns69f07d9f47ddc' },
-  { id:'w7', title:'제품 랜딩페이지', desc:'실시간 상담 신청 및 고객 데이터(DB) 자동 적재 시스템을 구축한 남성 케어 브랜드 랜딩페이지', tags:['랜딩페이지', 'DB연동', '반응형'], liveTag:'live', type:'E-Commerce', thumbSrc:'images/site_06.jpg', url:'https://www.miracleforman.com/Main-Home' },
-  { id:'w8', title:'브랜드 랜딩페이지', desc:'고객 데이터 수집 및 마케팅 효율 극대화를 위한 DB 연동형 e-커머스 랜딩페이지', tags:['랜딩페이지'], liveTag:'live', type:'E-Commerce', thumbSrc:'images/site_07.jpg', url:'https://www.waterpurifier-mall.com/67d7bded9bf9f' },
-  { id:'w9', title:'모바일 웹 청첩장', desc:'참석 여부(RSVP) 조사 및 축의금 계좌 복사 등 실용적 기능을 담은 반응형 웹 청첩장', tags:['웹청첩장', '반응형', 'API연동', 'UX/UI'], liveTag:'live', type:'Personal Project', thumbSrc:'images/site_08.jpg', url:'https://oyoonsik.github.io/yunflix/oh/images/web/sub/wedding.jpg' },
-];
+let WEBSITE_DATA = [];
+let currentWebFilter = 'all';
 
-function renderWebPortfolio() {
+async function fetchSupabaseWebsites() {
+  const res = await fetch(
+    `${P_SUPABASE_URL}/rest/v1/websites?visible=eq.true&order=created_at.desc`,
+    {
+      headers: {
+        'apikey': P_SUPABASE_KEY,
+        'Authorization': `Bearer ${P_SUPABASE_KEY}`,
+      }
+    }
+  );
+  if (!res.ok) throw new Error('Supabase fetch error ' + res.status);
+  return await res.json();
+}
+
+function parseWebsiteItem(row) {
+  return {
+    id:          row.id,
+    title:       row.title || '제목 없음',
+    desc:        row.desc || '',
+    tags:        row.tags ? row.tags.split(',').map(s => s.trim()).filter(Boolean) : [],
+    liveTag:     row.live_tag || 'live',
+    type:        row.type || '',
+    thumbSrc:    row.thumbnail_url || '',
+    url:         row.url || '',
+    galleryUrls: row.gallery_urls ? row.gallery_urls.split(',').map(s => s.trim()).filter(Boolean) : [],
+  };
+}
+
+function filterWeb(type, btn) {
+  currentWebFilter = type;
+  document.querySelectorAll('#tab-website .web-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderWebCards();
+}
+
+async function renderWebPortfolio() {
   const grid = document.getElementById('webGrid');
+  grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#666;">불러오는 중...</div>`;
+
+  try {
+    const rows = await fetchSupabaseWebsites();
+    WEBSITE_DATA = rows.map(parseWebsiteItem);
+  } catch (err) {
+    console.error(err);
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#666;">데이터를 불러오지 못했습니다.</div>`;
+    return;
+  }
+
   const liveCount = WEBSITE_DATA.filter(w => w.liveTag === 'live').length;
   document.getElementById('web-count').textContent = String(liveCount).padStart(2, '0');
-  grid.innerHTML = WEBSITE_DATA.map(w => {
+
+  renderWebCards();
+}
+
+function renderWebCards() {
+  const grid = document.getElementById('webGrid');
+  const data = currentWebFilter === 'all'
+    ? WEBSITE_DATA
+    : currentWebFilter === 'uxui'
+      ? WEBSITE_DATA.filter(w => w.type === 'UX/UI Design')
+      : WEBSITE_DATA.filter(w => w.type !== 'UX/UI Design');
+
+  if (!data.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#666;">준비 중인 포트폴리오입니다.</div>`;
+    return;
+  }
+
+  grid.innerHTML = data.map((w, idx) => {
     const tagHtml   = w.tags.map(t => `<span class="web-card-tag">${t}</span>`).join('');
-    const liveBadge = w.liveTag === 'live'
-      ? `<span class="web-card-tag live">● LIVE</span>`
-      : `<span class="web-card-tag dev">▲ 준비중</span>`;
+    const isUxui    = w.type === 'UX/UI Design';
+    const liveBadge = isUxui
+      ? `<span class="web-card-tag uxui">✎ UX/UI 디자인</span>`
+      : (w.liveTag === 'live'
+          ? `<span class="web-card-tag live">● LIVE</span>`
+          : `<span class="web-card-tag dev">▲ 준비중</span>`);
     const thumb = w.thumbSrc
       ? `<img src="${w.thumbSrc}" alt="${w.title}" onerror="this.src='https://via.placeholder.com/800x500/141414/333?text=O.D.D'">`
       : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#333;font-size:13px;letter-spacing:2px;">COMING SOON</div>`;
-    return `<a href="${w.url || '#'}" ${w.url ? 'target="_blank" rel="noopener"' : ''} class="web-card${!w.url ? ' coming-soon' : ''}">
+
+    const innerHtml = `
       <div class="web-card-thumb">${thumb}<div class="web-card-overlay"><span class="web-card-link-icon">↗</span></div></div>
       <div class="web-card-info">
         <div class="web-card-tags">${liveBadge}${tagHtml}</div>
         <h3 class="web-card-title">${w.title}</h3>
         <p class="web-card-desc">${w.desc}</p>
         <div class="web-card-footer"><span class="web-card-type">${w.type}</span><span class="web-card-arrow">↗</span></div>
-      </div></a>`;
+      </div>`;
+
+    if (isUxui) {
+      return `<div class="web-card" style="cursor:pointer" onclick="openGalleryModal(${idx}, '${currentWebFilter}')">${innerHtml}</div>`;
+    }
+    const hasLink = !!w.url;
+    return `<a href="${w.url || '#'}" ${hasLink ? 'target="_blank" rel="noopener"' : ''} class="web-card${!hasLink ? ' coming-soon' : ''}">${innerHtml}</a>`;
   }).join('');
+}
+
+// =============================================
+// UX/UI 갤러리 모달
+// =============================================
+let galleryModalImages = [];
+let galleryModalIdx = 0;
+
+function openGalleryModal(idx, filter) {
+  const data = filter === 'all'
+    ? WEBSITE_DATA
+    : filter === 'uxui'
+      ? WEBSITE_DATA.filter(w => w.type === 'UX/UI Design')
+      : WEBSITE_DATA.filter(w => w.type !== 'UX/UI Design');
+  const item = data[idx];
+  if (!item) return;
+
+  galleryModalImages = item.galleryUrls.length ? item.galleryUrls : [item.thumbSrc];
+  galleryModalIdx = 0;
+
+  let modal = document.getElementById('galleryModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'galleryModal';
+    modal.className = 'gallery-modal';
+    modal.innerHTML = `
+      <div class="gallery-modal-inner">
+        <button class="gallery-modal-close" onclick="closeGalleryModal()">✕</button>
+        <button class="gallery-modal-nav prev" onclick="galleryNav(-1)">‹</button>
+        <img class="gallery-modal-img" id="gallery-modal-img">
+        <button class="gallery-modal-nav next" onclick="galleryNav(1)">›</button>
+        <div class="gallery-modal-meta">
+          <h3 id="gallery-modal-title"></h3>
+          <div class="gallery-modal-dots" id="gallery-modal-dots"></div>
+        </div>
+      </div>`;
+    modal.addEventListener('click', e => { if (e.target === modal) closeGalleryModal(); });
+    document.body.appendChild(modal);
+  }
+
+  document.getElementById('gallery-modal-title').textContent = item.title;
+  renderGalleryModalImage();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderGalleryModalImage() {
+  document.getElementById('gallery-modal-img').src = galleryModalImages[galleryModalIdx];
+  document.getElementById('gallery-modal-dots').innerHTML = galleryModalImages.map((_, i) =>
+    `<span class="gallery-dot${i === galleryModalIdx ? ' active' : ''}" onclick="goToGalleryImg(${i})"></span>`
+  ).join('');
+}
+
+function goToGalleryImg(i) { galleryModalIdx = i; renderGalleryModalImage(); }
+
+function galleryNav(dir) {
+  galleryModalIdx = (galleryModalIdx + dir + galleryModalImages.length) % galleryModalImages.length;
+  renderGalleryModalImage();
+}
+
+function closeGalleryModal() {
+  const modal = document.getElementById('galleryModal');
+  if (modal) modal.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // =============================================
