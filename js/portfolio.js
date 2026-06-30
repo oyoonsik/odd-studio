@@ -1,19 +1,19 @@
 // =============================================
 // 🔧 Supabase 설정
 // =============================================
-const SUPABASE_URL  = 'https://zqiophoueasyjvwjapai.supabase.co';
-const SUPABASE_KEY  = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
+const P_SUPABASE_URL = 'https://zqiophoueasyjvwjapai.supabase.co';
+const P_SUPABASE_KEY = 'sb_publishable_NVHZWgrprdaKCgZ4mqmEEg_vt43h2Hz';
 
 // =============================================
 // Supabase REST API 호출
 // =============================================
 async function fetchSupabasePortfolio() {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/portfolio?visible=eq.true&order=created_at.desc`,
+    `${P_SUPABASE_URL}/rest/v1/portfolio?visible=eq.true&order=created_at.desc`,
     {
       headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'apikey': P_SUPABASE_KEY,
+        'Authorization': `Bearer ${P_SUPABASE_KEY}`,
       }
     }
   );
