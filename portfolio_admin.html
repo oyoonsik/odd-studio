@@ -55,6 +55,17 @@ body { background: var(--black); color: var(--white); font-family: var(--font-bo
 }
 .btn-logout:hover { color: var(--white); border-color: var(--white); }
 
+.admin-tabs {
+  display: flex; gap: 8px; max-width: 960px; margin: 0 auto; padding: 32px 24px 0;
+}
+.admin-tab-btn {
+  background: var(--gray); color: var(--muted); border: 1px solid var(--gray2);
+  padding: 12px 24px; border-radius: 50px; font-family: var(--font-body); font-size: 14px;
+  font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.admin-tab-btn:hover { color: var(--white); border-color: var(--white); }
+.admin-tab-btn.active { background: var(--accent); color: var(--black); border-color: var(--accent); }
+
 .admin-body { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
 
 /* FORM CARD */
@@ -102,6 +113,20 @@ body { background: var(--black); color: var(--white); font-family: var(--font-bo
   margin-top: 10px; height: 4px; background: var(--gray2); border-radius: 2px; overflow: hidden; display: none;
 }
 .upload-progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+
+/* 갤러리 멀티 업로드 */
+.gallery-preview-row {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;
+}
+.gallery-thumb-wrap { position: relative; width: 80px; height: 80px; }
+.gallery-thumb-wrap img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 6px; border: 1px solid var(--gray2);
+}
+.gallery-thumb-remove {
+  position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent2); color: #fff; border: none; font-size: 11px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+}
 
 /* SUBMIT */
 .form-actions { display: flex; gap: 12px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--gray2); }
@@ -194,7 +219,12 @@ body { background: var(--black); color: var(--white); font-family: var(--font-bo
     <button class="btn-logout" onclick="doLogout()">로그아웃</button>
   </div>
 
-  <div class="admin-body">
+  <div class="admin-tabs">
+    <button class="admin-tab-btn active" id="atab-detail" onclick="switchAdminTab('detail')">상세페이지 포트폴리오</button>
+    <button class="admin-tab-btn" id="atab-website" onclick="switchAdminTab('website')">홈페이지 포트폴리오</button>
+  </div>
+
+  <div class="admin-body" id="admin-body-detail">
 
     <!-- 업로드 폼 -->
     <div class="form-card">
@@ -276,9 +306,104 @@ body { background: var(--black); color: var(--white); font-family: var(--font-bo
     </div>
 
   </div>
+
+  <!-- 홈페이지 포트폴리오 섹션 -->
+  <div class="admin-body" id="admin-body-website" style="display:none">
+
+    <div class="form-card">
+      <h2>+ 새 홈페이지 포트폴리오 등록</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>사이트명 *</label>
+          <input type="text" id="w-title" placeholder="지니앤솔루션 홈페이지">
+        </div>
+        <div class="form-group">
+          <label>사이트 URL <span style="color:#666;font-weight:400;text-transform:none;">(UX/UI 디자인은 비워도 됨)</span></label>
+          <input type="text" id="w-url" placeholder="https://example.com">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>분류 (Type) *</label>
+          <select id="w-type" onchange="toggleGalleryField()">
+            <option value="">선택하세요</option>
+            <option value="Brand Website">Brand Website (브랜드 홈페이지)</option>
+            <option value="Landing Page">Landing Page (랜딩페이지)</option>
+            <option value="E-Commerce">E-Commerce</option>
+            <option value="Personal Project">Personal Project</option>
+            <option value="UX/UI Design">UX/UI Design (디자인 시안)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>상태</label>
+          <select id="w-live-tag">
+            <option value="live">● LIVE (운영중)</option>
+            <option value="dev">▲ 준비중</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label>한 줄 설명</label>
+          <input type="text" id="w-desc" placeholder="아임웹 기반으로 제작된 브랜드 홈페이지">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label>태그 (콤마로 구분)</label>
+          <input type="text" id="w-tags" placeholder="브랜드 홈페이지, 반응형">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label>썸네일 이미지 *</label>
+          <div class="upload-zone" id="zone-wthumb" ondragover="onDrag(event,'zone-wthumb')" ondragleave="offDrag('zone-wthumb')" ondrop="onDrop(event,'wthumb')">
+            <input type="file" id="file-wthumb" accept="image/*" onchange="onFileChange(event,'wthumb')">
+            <div class="upload-icon">🖥️</div>
+            <p>클릭하거나 <span>드래그</span>해서 업로드<br><small>카드에 보이는 썸네일 이미지 (16:10 권장)</small></p>
+            <img class="upload-preview" id="prev-wthumb">
+            <div class="upload-progress" id="prog-wthumb"><div class="upload-progress-bar" id="progbar-wthumb"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row full" id="row-gallery" style="display:none">
+        <div class="form-group">
+          <label>UX/UI 갤러리 이미지 (여러 장 가능) *</label>
+          <div class="upload-zone" id="zone-gallery" ondragover="onDrag(event,'zone-gallery')" ondragleave="offDrag('zone-gallery')" ondrop="onGalleryDrop(event)">
+            <input type="file" id="file-gallery" accept="image/*" multiple onchange="onGalleryChange(event)">
+            <div class="upload-icon">🎨</div>
+            <p>클릭하거나 <span>여러 장 드래그</span>해서 업로드<br><small>디자인 시안, 와이어프레임 등 (순서대로 표시됨)</small></p>
+          </div>
+          <div class="gallery-preview-row" id="gallery-preview"></div>
+          <div class="upload-progress" id="prog-gallery"><div class="upload-progress-bar" id="progbar-gallery"></div></div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-reset" onclick="resetWebForm()">초기화</button>
+        <button class="btn-submit" id="btn-wsubmit" onclick="submitWebsite()">홈페이지 포트폴리오 등록하기 →</button>
+      </div>
+    </div>
+
+    <div class="list-card">
+      <div class="list-header">
+        <h2>등록된 홈페이지 포트폴리오</h2>
+        <span class="list-count" id="wlist-count">불러오는 중...</span>
+      </div>
+      <div id="website-list"><div class="list-loading">불러오는 중...</div></div>
+    </div>
+
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
+
 
 <script>
 // ── 설정 ──────────────────────────────────────────
@@ -303,6 +428,15 @@ function doLogout() {
   document.getElementById('pw-input').value = '';
 }
 
+// ── 관리자 메인 탭 전환 ─────────────────────────────
+function switchAdminTab(tab) {
+  document.getElementById('atab-detail').classList.toggle('active', tab === 'detail');
+  document.getElementById('atab-website').classList.toggle('active', tab === 'website');
+  document.getElementById('admin-body-detail').style.display  = tab === 'detail'  ? '' : 'none';
+  document.getElementById('admin-body-website').style.display = tab === 'website' ? '' : 'none';
+  if (tab === 'website') loadWebsiteList();
+}
+
 // ── 토스트 ────────────────────────────────────────
 function showToast(msg, isErr = false) {
   const t = document.getElementById('toast');
@@ -312,7 +446,70 @@ function showToast(msg, isErr = false) {
 }
 
 // ── 이미지 업로드 상태 ────────────────────────────
-const uploadedUrls = { thumb: null, image: null };
+const uploadedUrls = { thumb: null, image: null, wthumb: null };
+let galleryUrls = [];
+
+function toggleGalleryField() {
+  const isUxui = document.getElementById('w-type').value === 'UX/UI Design';
+  document.getElementById('row-gallery').style.display = isUxui ? '' : 'none';
+}
+
+async function onGalleryChange(e) {
+  const files = Array.from(e.target.files);
+  for (const file of files) await uploadGalleryFile(file);
+  e.target.value = '';
+}
+async function onGalleryDrop(e) {
+  e.preventDefault();
+  offDrag('zone-gallery');
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  for (const file of files) await uploadGalleryFile(file);
+}
+
+async function uploadGalleryFile(file) {
+  const progEl = document.getElementById('prog-gallery');
+  const barEl  = document.getElementById('progbar-gallery');
+  progEl.style.display = 'block';
+  barEl.style.width = '30%';
+
+  const ext      = file.name.split('.').pop();
+  const fileName = `gallery_${Date.now()}_${Math.random().toString(36).slice(2,7)}.${ext}`;
+
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/portfolio-images/${fileName}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': file.type,
+      'x-upsert': 'true',
+    },
+    body: file,
+  });
+
+  barEl.style.width = '100%';
+  setTimeout(() => { progEl.style.display = 'none'; barEl.style.width = '0%'; }, 600);
+
+  if (!res.ok) { showToast('갤러리 이미지 업로드 실패 😢', true); return; }
+
+  const url = `${SUPABASE_URL}/storage/v1/object/public/portfolio-images/${fileName}`;
+  galleryUrls.push(url);
+  renderGalleryPreview();
+  showToast('갤러리 이미지 추가됨 ✅');
+}
+
+function renderGalleryPreview() {
+  const wrap = document.getElementById('gallery-preview');
+  wrap.innerHTML = galleryUrls.map((url, idx) => `
+    <div class="gallery-thumb-wrap">
+      <img src="${url}">
+      <button class="gallery-thumb-remove" onclick="removeGalleryImage(${idx})">✕</button>
+    </div>`).join('');
+}
+
+function removeGalleryImage(idx) {
+  galleryUrls.splice(idx, 1);
+  renderGalleryPreview();
+}
 
 function onDrag(e, zoneId) { e.preventDefault(); document.getElementById(zoneId).classList.add('dragover'); }
 function offDrag(zoneId) { document.getElementById(zoneId).classList.remove('dragover'); }
@@ -459,18 +656,108 @@ async function loadList() {
 }
 
 // ── 삭제 ──────────────────────────────────────────
-async function deleteItem(id, thumbUrl, imageUrl) {
+// ── 홈페이지 포트폴리오 등록 ─────────────────────
+async function submitWebsite() {
+  const title   = document.getElementById('w-title').value.trim();
+  const url     = document.getElementById('w-url').value.trim();
+  const type    = document.getElementById('w-type').value.trim();
+  const liveTag = document.getElementById('w-live-tag').value;
+  const desc    = document.getElementById('w-desc').value.trim();
+  const tags    = document.getElementById('w-tags').value.trim();
+
+  if (!title || !type) { showToast('사이트명과 분류는 필수입니다.', true); return; }
+  if (!uploadedUrls.wthumb)     { showToast('썸네일 이미지를 업로드해주세요.', true); return; }
+  if (type === 'UX/UI Design' && galleryUrls.length === 0) {
+    showToast('UX/UI 디자인은 갤러리 이미지를 1장 이상 업로드해주세요.', true); return;
+  }
+
+  const btn = document.getElementById('btn-wsubmit');
+  btn.disabled = true;
+  btn.textContent = '등록 중...';
+
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/websites`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify({
+      title, url, type, tags, desc,
+      live_tag: liveTag,
+      thumbnail_url: uploadedUrls.wthumb,
+      gallery_urls: galleryUrls.join(','),
+      visible: true,
+    }),
+  });
+
+  btn.disabled = false;
+  btn.textContent = '홈페이지 포트폴리오 등록하기 →';
+
+  if (res.ok) {
+    showToast('등록 완료! 🎉');
+    resetWebForm();
+    loadWebsiteList();
+  } else {
+    showToast('등록 실패. 다시 시도해주세요.', true);
+  }
+}
+
+function resetWebForm() {
+  ['w-title','w-url','w-type','w-desc','w-tags'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('w-live-tag').value = 'live';
+  uploadedUrls.wthumb = null;
+  document.getElementById('prev-wthumb').style.display = 'none';
+  document.getElementById('file-wthumb').value = '';
+  galleryUrls = [];
+  renderGalleryPreview();
+  toggleGalleryField();
+}
+
+async function loadWebsiteList() {
+  const listEl  = document.getElementById('website-list');
+  const countEl = document.getElementById('wlist-count');
+  listEl.innerHTML = '<div class="list-loading">불러오는 중...</div>';
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/websites?order=created_at.desc&select=*`,
+    { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+  );
+  const rows = await res.json();
+  countEl.textContent = `총 ${rows.length}개`;
+
+  if (!rows.length) {
+    listEl.innerHTML = '<div class="list-empty">등록된 홈페이지 포트폴리오가 없습니다.</div>';
+    return;
+  }
+
+  listEl.innerHTML = rows.map(r => `
+    <div class="list-item">
+      ${r.thumbnail_url
+        ? `<img class="list-thumb" src="${r.thumbnail_url}" alt="${r.title}">`
+        : `<div class="list-thumb-placeholder">NO IMG</div>`}
+      <div class="list-info">
+        <div class="list-title">${r.title}</div>
+        <div class="list-meta">
+          <span>${r.live_tag === 'live' ? '● LIVE' : '▲ 준비중'}</span>
+          ${r.type} · ${r.visible ? '공개' : '비공개'}
+        </div>
+      </div>
+      <button class="btn-delete" onclick="deleteWebsiteItem(${r.id}, '${r.thumbnail_url}', '${r.gallery_urls || ''}')">삭제</button>
+    </div>`).join('');
+}
+
+async function deleteWebsiteItem(id, thumbUrl, galleryStr) {
   if (!confirm('정말 삭제하시겠습니까?')) return;
 
-  // DB 삭제
-  await fetch(`${SUPABASE_URL}/rest/v1/portfolio?id=eq.${id}`, {
+  await fetch(`${SUPABASE_URL}/rest/v1/websites?id=eq.${id}`, {
     method: 'DELETE',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
 
-  // Storage 파일 삭제
-  for (const url of [thumbUrl, imageUrl]) {
-    if (!url) continue;
+  const allUrls = [thumbUrl, ...(galleryStr ? galleryStr.split(',') : [])].filter(Boolean);
+  for (const url of allUrls) {
     const fileName = url.split('/portfolio-images/')[1];
     if (!fileName) continue;
     await fetch(`${SUPABASE_URL}/storage/v1/object/portfolio-images/${fileName}`, {
@@ -480,8 +767,9 @@ async function deleteItem(id, thumbUrl, imageUrl) {
   }
 
   showToast('삭제 완료');
-  loadList();
+  loadWebsiteList();
 }
+
 </script>
 </body>
 </html>
