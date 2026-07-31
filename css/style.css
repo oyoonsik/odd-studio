@@ -21,6 +21,8 @@ body {
   overflow-x: hidden;
   cursor: none;
   -webkit-font-smoothing: antialiased; /* 글자를 더 선명하게 렌더링 */
+  word-break: keep-all; /* 한글 조사/단어 중간에서 어색하게 끊기는 것 방지 */
+  overflow-wrap: break-word;
 }
 
 /* CURSOR */
@@ -118,7 +120,7 @@ body {
   opacity: 0; animation: fadeUp 0.8s ease 0.62s forwards;
 }
 .hero-desc {
-  font-size: 18px; font-weight: 300; /* 15px -> 17px */
+  font-size: 20px; font-weight: 300; /* 15px -> 17px */
   line-height: 1.5; color: #9d9d9d; max-width: 700px;
 }
 .hero-desc strong { 
@@ -392,7 +394,7 @@ footer {
 /* MOBILE */
 @media (max-width: 768px) {
 
-  .hero { padding: 80px 20px 64px; min-height: 100vh; }
+  .hero { padding: 96px 20px 56px; min-height: auto; }
   .hero-q { font-size: 18px; }
   .services, .why, .process, .story { padding: 80px 20px; }
   .story-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -401,6 +403,7 @@ footer {
   .svc-item { grid-template-columns: 40px 1fr 28px; }
   .svc-badge { display: none; }
   .why-grid { grid-template-columns: 1fr; gap: 48px; }
+  .why-title { font-size: clamp(30px, 8vw, 40px); }
   .proc-grid { grid-template-columns: 1fr 1fr; }
   .proc-step { border-bottom: 1px solid var(--gray2); padding: 32px 20px; }
   .cta-band { margin: 0 20px; flex-direction: column; padding: 48px 28px; text-align: center; }
