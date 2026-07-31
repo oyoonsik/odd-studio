@@ -118,11 +118,9 @@ async function submitConsultation(e) {
 function initCursor() {
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  const heroBgText = document.querySelector('.hero-bg-text');
   if (!cursor || !ring) return;
 
   let mx = 0, my = 0, rx = 0, ry = 0;
-  let px = 0, py = 0; // parallax smoothing
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
   function animate() {
@@ -130,15 +128,6 @@ function initCursor() {
     ry += (my - ry) * 0.14;
     cursor.style.transform = `translate(${mx-4}px, ${my-4}px)`;
     ring.style.transform = `translate(${rx-17}px, ${ry-17}px)`;
-
-    if (heroBgText) {
-      const targetX = (mx / window.innerWidth - 0.5) * 24;
-      const targetY = (my / window.innerHeight - 0.5) * 24;
-      px += (targetX - px) * 0.05;
-      py += (targetY - py) * 0.05;
-      heroBgText.style.transform = `translateY(-50%) translate(${px}px, ${py}px)`;
-    }
-
     requestAnimationFrame(animate);
   }
   animate();
