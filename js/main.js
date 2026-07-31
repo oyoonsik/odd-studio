@@ -172,10 +172,47 @@ function bindCTAs() {
 }
 
 // ==================== 초기화 ====================
+
+function initStoryScroll() {
+  const section = document.getElementById('brandStory');
+  if (!section) return;
+
+  const items = section.querySelectorAll('.story-reveal');
+  if (!items.length) return;
+
+  // Story-like sequential thresholds (0~6)
+  // label → quote → para1 → para2 → para3 → sign → stats
+  const thresholds = [0.05, 0.12, 0.24, 0.36, 0.48, 0.60, 0.72];
+
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+
+    const scrolled = -rect.top;
+    const progress = Math.min(1, Math.max(0, scrolled / total));
+
+    items.forEach((el, i) => {
+      const t = thresholds[i] != null ? thresholds[i] : (i + 1) * 0.12;
+      if (progress >= t) {
+        el.classList.add('is-visible');
+      } else {
+        el.classList.remove('is-visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+
+
 window.addEventListener('DOMContentLoaded', () => {
   initCursor();
   updateCursorHover();
   initScrollReveal();
+  initStoryScroll();
   bindCTAs();
 
   document.addEventListener('submit', (e) => {
