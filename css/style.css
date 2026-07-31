@@ -118,7 +118,7 @@ body {
   opacity: 0; animation: fadeUp 0.8s ease 0.62s forwards;
 }
 .hero-desc {
-  font-size: 20px; font-weight: 300; /* 15px -> 17px */
+  font-size: 18px; font-weight: 300; /* 15px -> 17px */
   line-height: 1.5; color: #9d9d9d; max-width: 700px;
 }
 .hero-desc strong { 
