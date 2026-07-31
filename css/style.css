@@ -259,35 +259,120 @@ body {
 .why-h { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; } /* 15px -> 18px */
 .why-p { font-size: 18px; color: var(--muted); line-height: 1.8; font-weight: 400; } /* 13px -> 15px */
 
-/* BRAND STORY */
-.story { padding: 140px 48px; }
+/* BRAND STORY — Scroll Story (centered narrative) */
+.story-scroll {
+  position: relative;
+  height: 280vh;
+}
+.story-scroll-sticky {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black);
+  padding: 0 48px;
+}
+.story-scroll-inner {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.story-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.story-label {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 88px);
+  letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 40px;
+}
+
 .story-lead {
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: clamp(28px, 3.4vw, 44px);
-  line-height: 1.5;
+  font-size: clamp(26px, 3.4vw, 42px);
+  line-height: 1.55;
   color: var(--white);
-  margin-top: 48px;
-  max-width: 900px;
+  margin: 0 0 44px;
+  max-width: 780px;
 }
 .story-lead .story-q { color: var(--accent2); }
-.story-grid {
-  display: grid; grid-template-columns: 1.4fr 1fr;
-  gap: 80px; align-items: start;
-  margin-top: 56px;
+
+.story-text {
+  font-size: clamp(17px, 1.9vw, 22px);
+  line-height: 1.9;
+  color: var(--muted);
+  font-weight: 400;
+  margin: 0 0 22px;
+  max-width: 620px;
 }
-.story-text { font-size: 20px; line-height: 1.9; color: var(--muted); font-weight: 400; }
 .story-text strong { color: var(--white); font-weight: 700; }
-.story-sign { margin-top: 32px; font-size: 15px; color: var(--muted); letter-spacing: 0.5px; }
-.story-sign strong { color: var(--white); }
-.story-stats { display: flex; flex-direction: column; border-top: 1px solid var(--gray2); }
-.story-stat {
-  display: flex; align-items: baseline; justify-content: space-between;
-  padding: 24px 0; border-bottom: 1px solid var(--gray2);
+
+.story-sign {
+  margin-top: 32px;
+  margin-bottom: 52px;
+  font-size: 16px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
 }
-.story-stat-num { font-family: var(--font-display); font-size: 40px; color: var(--accent); }
-.story-stat-num span { font-size: 18px; color: var(--muted); margin-left: 4px; font-family: var(--font-body); }
-.story-stat-label { font-size: 14px; color: var(--muted); letter-spacing: 0.5px; }
+.story-sign strong { color: var(--white); }
+
+.story-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--gray2);
+  padding-top: 36px;
+  width: 100%;
+  max-width: 640px;
+}
+.story-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.story-stat-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--accent);
+  line-height: 1;
+}
+.story-stat-num span {
+  font-size: 18px;
+  color: var(--muted);
+  margin-left: 2px;
+  font-family: var(--font-body);
+}
+.story-stat-label {
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* Scroll-driven reveal */
+.story-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.story-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* PROCESS */
 .process { padding: 140px 48px; }
@@ -396,8 +481,15 @@ footer {
 
   .hero { padding: 96px 20px 56px; min-height: auto; }
   .hero-q { font-size: 18px; }
-  .services, .why, .process, .story { padding: 80px 20px; }
-  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+  .services, .why, .process { padding: 80px 20px; }
+  .story-scroll-sticky { padding: 0 20px; }
+  .story-lead { font-size: 24px; }
+  .story-text { font-size: 16px; }
+  .story-stat-num { font-size: 36px; }
+  .story-stats { gap: 28px; }
+  .story-scroll { height: 260vh; }
+  .story-label { margin-bottom: 28px; font-size: 48px; }
+  .story-sign { font-size: 14px; }
   .s-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   .s-count { display: none; }
   .svc-item { grid-template-columns: 40px 1fr 28px; }
