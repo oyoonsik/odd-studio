@@ -257,6 +257,36 @@ body {
 .why-h { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; } /* 15px -> 18px */
 .why-p { font-size: 18px; color: var(--muted); line-height: 1.8; font-weight: 400; } /* 13px -> 15px */
 
+/* BRAND STORY */
+.story { padding: 140px 48px; }
+.story-lead {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.5;
+  color: var(--white);
+  margin-top: 48px;
+  max-width: 900px;
+}
+.story-lead .story-q { color: var(--accent2); }
+.story-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 80px; align-items: start;
+  margin-top: 56px;
+}
+.story-text { font-size: 20px; line-height: 1.9; color: var(--muted); font-weight: 400; }
+.story-text strong { color: var(--white); font-weight: 700; }
+.story-sign { margin-top: 32px; font-size: 15px; color: var(--muted); letter-spacing: 0.5px; }
+.story-sign strong { color: var(--white); }
+.story-stats { display: flex; flex-direction: column; border-top: 1px solid var(--gray2); }
+.story-stat {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 24px 0; border-bottom: 1px solid var(--gray2);
+}
+.story-stat-num { font-family: var(--font-display); font-size: 40px; color: var(--accent); }
+.story-stat-num span { font-size: 18px; color: var(--muted); margin-left: 4px; font-family: var(--font-body); }
+.story-stat-label { font-size: 14px; color: var(--muted); letter-spacing: 0.5px; }
+
 /* PROCESS */
 .process { padding: 140px 48px; }
 .proc-grid {
@@ -364,7 +394,8 @@ footer {
 
   .hero { padding: 80px 20px 64px; min-height: 100vh; }
   .hero-q { font-size: 18px; }
-  .services, .why, .process { padding: 80px 20px; }
+  .services, .why, .process, .story { padding: 80px 20px; }
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
   .s-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   .s-count { display: none; }
   .svc-item { grid-template-columns: 40px 1fr 28px; }
