@@ -672,7 +672,7 @@ body {
 /* 02 SOCIAL IMPACT 개선 */
 .impact { 
   padding: 140px 24px;
-  background: #F5F3EF; /* 연한 그레이로 깔끔하게 */
+  background: #ffffec;
   display: flex;
   justify-content: center;
 }
@@ -735,7 +735,7 @@ body {
 }
 
 .impact-h { 
-  font-size: 20px; 
+  font-size: 25px; 
   font-weight: 700; 
   color: var(--white); 
   margin-bottom: 10px; 
