@@ -208,12 +208,292 @@ function initStoryScroll() {
 
 
 
+
+/* =========================================================
+   HERO SCROLL SPLIT TEXT EFFECT (smooth rAF + lerp)
+   Scene 0: ONE | DESIGN  → horizontal → 한 번의 디자인
+   Scene 1: TWO | CHANGES → vertical   → 두 번의 변화
+   Scene 2: DESIGN | FOR ALL → horizontal → 모두를 위한 디자인은 세상을 바꿉니다
+   ========================================================= */
+function initHeroScroll() {
+  const section = document.querySelector('.hero-scroll-effect');
+  if (!section) return;
+
+  const scenes = Array.from(section.querySelectorAll('.scroll-scene'));
+  const progressBar = section.querySelector('.scroll-progress-bar');
+  const progressWrap = section.querySelector('.scroll-progress');
+  const indicator = section.querySelector('.scroll-indicator');
+  if (!scenes.length) return;
+
+  const sceneCount = scenes.length;
+
+  // DOM 한 번만 캐싱
+  const sceneData = scenes.map((scene) => ({
+    el: scene,
+    splitEl: scene.querySelector('.split-text'),
+    left: scene.querySelector('.left'),
+    right: scene.querySelector('.right'),
+    inner: scene.querySelector('.inner-text'),
+    isVertical: !!scene.querySelector('.split-vertical'),
+    staticSize: 0, // 화면 밖으로 밀려나지 않도록 벌어짐 폭/높이를 제한하는 기준값
+  }));
+
+  function clamp(v, min, max) {
+    return v < min ? min : v > max ? max : v;
+  }
+
+  // 각 씬의 "안 벌어진" 원본 크기를 측정 (transform은 레이아웃 크기에 영향 없음)
+  function measureScenes() {
+    sceneData.forEach((s) => {
+      if (!s.splitEl) return;
+      const rect = s.splitEl.getBoundingClientRect();
+      s.staticSize = s.isVertical ? rect.height : rect.width;
+    });
+  }
+
+  function easeInOutCubic(t) {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function easeOutQuad(t) {
+    return 1 - (1 - t) * (1 - t);
+  }
+
+  let targetProgress = 0;
+  let currentProgress = 0;
+  let ticking = false;
+  let lastInView = true;
+
+  // 0.08~0.18 권장. 낮을수록 더 부드럽고, 높을수록 스크롤에 더 즉각 반응
+  const LERP = 0.12;
+
+  function measureProgress() {
+    const rect = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    if (total <= 0) return 0;
+    return clamp(-rect.top / total, 0, 1);
+  }
+
+  function apply(progress) {
+    const rect = section.getBoundingClientRect();
+    const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+
+    if (progressBar) {
+      progressBar.style.width = (progress * 100).toFixed(3) + '%';
+    }
+    if (progressWrap && inView !== lastInView) {
+      progressWrap.style.opacity = inView ? '1' : '0';
+      lastInView = inView;
+    }
+    if (indicator) {
+      const hide = progress > 0.06 || !inView;
+      if (hide !== indicator.classList.contains('is-hidden')) {
+        indicator.classList.toggle('is-hidden', hide);
+      }
+    }
+
+    const slice = 1 / sceneCount;
+
+    for (let i = 0; i < sceneCount; i++) {
+      const s = sceneData[i];
+      const start = i * slice;
+      let local = (progress - start) / slice;
+      local = clamp(local, 0, 1);
+
+      // 씬 크로스페이드
+      let opacity = 0;
+      if (local <= 0) {
+        opacity = 0;
+      } else if (local < 0.15) {
+        opacity = easeOutQuad(local / 0.15);
+      } else if (local > 0.85) {
+        opacity = easeOutQuad((1 - local) / 0.15);
+      } else {
+        opacity = 1;
+      }
+      if (i === 0 && progress < 0.04) opacity = 1;
+      if (i === sceneCount - 1 && progress > 0.96) opacity = 1;
+
+      s.el.style.opacity = opacity < 0.01 ? '0' : opacity.toFixed(4);
+      s.el.style.visibility = opacity < 0.01 ? 'hidden' : 'visible';
+
+      // 스플릿: 잠깐 유지 → 부드럽게 벌어짐 → 유지
+      let splitT = 0;
+      if (local < 0.12) {
+        splitT = 0;
+      } else if (local < 0.62) {
+        splitT = easeInOutCubic((local - 0.12) / 0.5);
+      } else {
+        splitT = 1;
+      }
+
+      const vw = Math.min(window.innerWidth, 1400);
+      const baseH = vw * 0.12;
+      const baseV = Math.min(window.innerHeight * 0.12, 100);
+      let dist = s.isVertical
+        ? baseV + splitT * baseV * 0.6
+        : baseH + splitT * baseH * 0.7;
+
+      // 문구가 길어(scene 2 등) 화면 밖으로 잘려나가지 않도록,
+      // 뷰포트 안에 들어올 수 있는 최대 벌어짐 폭/높이로 제한
+      if (s.staticSize) {
+        const viewportSize = s.isVertical ? window.innerHeight : window.innerWidth;
+        const margin = 20; // 가장자리 여백
+        const maxDist = Math.max(0, (viewportSize - s.staticSize) / 2 - margin);
+        dist = Math.min(dist, maxDist);
+      }
+
+      if (s.left && s.right) {
+        if (s.isVertical) {
+          const y = dist * splitT;
+          s.left.style.transform = `translate3d(0, ${(-y).toFixed(2)}px, 0)`;
+          s.right.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0)`;
+        } else {
+          const x = dist * splitT;
+          s.left.style.transform = `translate3d(${(-x).toFixed(2)}px, 0, 0)`;
+          s.right.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+        }
+      }
+
+      if (s.inner) {
+        let io = 0;
+        if (splitT > 0.2) {
+          io = clamp((splitT - 0.2) / 0.55, 0, 1);
+          io = easeOutQuad(io);
+        }
+        const scale = 0.92 + io * 0.08;
+        s.inner.style.opacity = io.toFixed(4);
+        s.inner.style.transform =
+          `translate3d(-50%, -50%, 0) scale(${scale.toFixed(4)})`;
+      }
+    }
+  }
+
+  function tick() {
+    targetProgress = measureProgress();
+    currentProgress += (targetProgress - currentProgress) * LERP;
+
+    if (Math.abs(targetProgress - currentProgress) < 0.0004) {
+      currentProgress = targetProgress;
+    }
+
+    apply(currentProgress);
+
+    const catchingUp = Math.abs(targetProgress - currentProgress) > 0.0004;
+    const rect = section.getBoundingClientRect();
+    const near = rect.bottom > -200 && rect.top < window.innerHeight + 200;
+
+    if (catchingUp || near) {
+      requestAnimationFrame(tick);
+    } else {
+      ticking = false;
+    }
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(tick);
+    }
+  }
+
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', () => {
+    measureScenes();
+    currentProgress = measureProgress();
+    targetProgress = currentProgress;
+    apply(currentProgress);
+    requestTick();
+  }, { passive: true });
+
+  measureScenes();
+  currentProgress = measureProgress();
+  targetProgress = currentProgress;
+  apply(currentProgress);
+  requestTick();
+
+  // 폰트(Bebas Neue) 로딩 후 실제 글자 폭으로 다시 측정
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      measureScenes();
+      apply(currentProgress);
+    });
+  }
+}
+
+function initStatsBar() {
+  const section = document.getElementById('statsBar');
+  if (!section) return;
+
+  const items = section.querySelectorAll('.stat-item');
+  const counts = section.querySelectorAll('.stat-count');
+  if (!items.length) return;
+
+  let played = false;
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function animateCount(el, duration) {
+    const target = parseFloat(el.getAttribute('data-target')) || 0;
+    const pad = parseInt(el.getAttribute('data-pad'), 10) || 0;
+    const start = performance.now();
+
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const value = Math.round(easeOutExpo(t) * target);
+      el.textContent = pad > 0
+        ? String(value).padStart(pad, '0')
+        : String(value);
+
+      if (t < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        el.textContent = pad > 0
+          ? String(target).padStart(pad, '0')
+          : String(target);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function play() {
+    if (played) return;
+    played = true;
+
+    items.forEach((item) => item.classList.add('is-in'));
+
+    counts.forEach((el, i) => {
+      setTimeout(() => animateCount(el, 1400), 150 + i * 120);
+    });
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          play();
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.35 }
+  );
+
+  observer.observe(section);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   initCursor();
   updateCursorHover();
   initScrollReveal();
   initStoryScroll();
+  initHeroScroll();
   bindCTAs();
+  initStatsBar();
 
   document.addEventListener('submit', (e) => {
     if (e.target.id === 'consultationForm') submitConsultation(e);
@@ -222,3 +502,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.openModal = openModal;
 window.closeModal = closeModal;
+
