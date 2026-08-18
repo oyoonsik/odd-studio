@@ -65,6 +65,18 @@ body {
   filter: saturate(0.8) contrast(1.1);
 }
 
+.hero-video2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.2;
+  filter: saturate(0.8) contrast(1.1);
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -671,18 +683,15 @@ body {
 /* 03 SOCIAL IMPACT */
 /* 02 SOCIAL IMPACT 개선 */
 .impact { 
+  position: relative;
   padding: 140px 24px;
-  background: #ffffec;
   display: flex;
   justify-content: center;
 }
 
-.impact .s-title, 
-.impact{
-  color: var(--black); /* 텍스트는 어둡게 */
-}
 
-.impact .section-tag {color: var(--accent2);}
+
+.impact .section-tag {color: var(--accent);}
 
 .impact .impact-card {
   background: #151515; /* 카드는 흰색으로 깔끔하게 */
