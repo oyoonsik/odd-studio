@@ -233,7 +233,7 @@ function initHeroScroll() {
     splitEl: scene.querySelector('.split-text'),
     left: scene.querySelector('.left'),
     right: scene.querySelector('.right'),
-    inner: scene.querySelector('.inner-text , .inner-text2'),
+    inner: scene.querySelector('.inner-text'),
     isVertical: !!scene.querySelector('.split-vertical'),
     staticSize: 0, // 화면 밖으로 밀려나지 않도록 벌어짐 폭/높이를 제한하는 기준값
   }));
