@@ -43,6 +43,13 @@ body {
   mix-blend-mode: difference;
 }
 
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .cursor { display: none;}
+  .cursor-ring { display: none;}
+}
+
+
 /* =========================================================
    HERO — O.D.D. EDITORIAL / HIGH IMPACT
    ========================================================= */
