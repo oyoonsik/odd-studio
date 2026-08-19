@@ -1483,6 +1483,26 @@ height: 100%;
   text-align: center;
 }
 
+.inner-text2 {
+  position: absolute;
+  left: 44%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(18px, 2.8vw, 50px);
+  line-height: 1.45;
+  color: var(--accent);
+  letter-spacing: -0.3px;
+  opacity: 0;
+  z-index: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: opacity, transform;
+  max-width: 90vw;
+  text-align: center;
+}
+
 .scroll-scene[data-scene="2"] .inner-text{
   white-space: normal;
   max-width: min(90vw, 520px);
@@ -1528,6 +1548,11 @@ height: 100%;
   .inner-text {
     font-size: clamp(15px, 4.2vw, 22px);
   }
+
+  .inner-text2 {
+    font-size: clamp(15px, 4.2vw, 22px);
+  }
+
 
 
   .scroll-indicator {
