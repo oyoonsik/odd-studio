@@ -626,6 +626,34 @@ body {
   padding-bottom: 55px;
 }
 .access-intro strong { color: var(--white); font-weight: 700; }
+
+/* 흐릿하던 초점이 또렷해지는 리빌 — "낮은 대비는 정보의 벽" 메시지와 맞물리는 연출 */
+.access-manifesto.reveal,
+.access-intro.reveal {
+  opacity: 0;
+  filter: blur(9px);
+  transform: translateY(14px);
+  transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
+}
+.access-manifesto.reveal.visible,
+.access-intro.reveal.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+.access-intro.reveal.visible { transition-delay: 0.15s; }
+
+/* 강조 단어 아래 포인트 밑줄이 쓱 그어지는 효과 (문단이 또렷해진 직후 시작) */
+.access-manifesto .acc {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.7s ease 0.55s;
+}
+.access-manifesto.reveal.visible .acc {
+  background-size: 100% 2px;
+}
 .access-grid {
   display: grid;
   grid-template-columns: 1fr 60px 1fr;
@@ -679,6 +707,16 @@ body {
   color: var(--white);
   text-align: center;
 }
+.access-card.after {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.access-card.after:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(130, 235, 11, 0.15); /* 초록빛 계열의 산뜻한 그림자 */
+  border-color: rgba(40, 167, 69, 0.4); /* 테두리가 있다면 포인트를 줌 */
+}
+
 
 /* 03 SOCIAL IMPACT */
 /* 02 SOCIAL IMPACT 개선 */
@@ -693,15 +731,6 @@ body {
 
 .impact .section-tag {color: var(--accent);}
 
-.impact .impact-card {
-  background: #151515; /* 카드는 흰색으로 깔끔하게 */
-  border:1px solid #eee;
-}
-
-.impact .impact-p {
-  color: #666; /* 본문 텍스트는 너무 어둡지 않게 */
-}
-
 
 .impact-inner {
   width: 100%;
@@ -709,32 +738,83 @@ body {
 }
 
 .impact-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* 카드 사이 간격 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   margin-top: 50px;
+  align-items: stretch;
 }
 
 .impact-card {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
-  background: var(--black);
-  border: 1px solid var(--gray2);
-  border-radius: 8px;
-  padding: 36px 32px;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  gap: 18px;
+  background: var(--white);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: 40px 32px 36px;
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(.2,.8,.2,1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
 }
+
+/* 카드 위쪽에 얇은 포인트 라인 — 리빌될 때 가운데서 양옆으로 갈라지듯 펼쳐짐 */
+.impact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  width: 0; height: 3px;
+  background: #ff4d00;
+  transform: translateX(-50%);
+  transition: width 0.6s cubic-bezier(.2,.8,.2,1) 0.15s;
+}
+.impact-card.visible::before { width: 100%; }
+
+/* 카드가 그리드 안에서 갈라져 나오는 리빌 시작 상태 (좌/중/우 서로 다른 방향) */
+.impact-grid .impact-card.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+}
+.impact-grid .impact-card:nth-child(1).reveal {
+  transform: translateY(20px) translateX(-24px) rotate(-3deg);
+}
+.impact-grid .impact-card:nth-child(3).reveal {
+  transform: translateY(20px) translateX(24px) rotate(3deg);
+}
+.impact-grid .impact-card.reveal.visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1);
+}
+.impact-grid .impact-card:nth-child(2).reveal.visible { transition-delay: 0.08s; }
+.impact-grid .impact-card:nth-child(3).reveal.visible { transition-delay: 0.16s; }
 
 .impact-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(200, 255, 0, 0.3); /* 호버 시 포인트 컬러 은은하게 노출 */
+  transform: translateY(-6px);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 48px -20px rgba(0,0,0,0.5);
+}
+/* 카드 하나에 호버하면 나머지가 살짝 밀리며 갈라지는 느낌 */
+.impact-grid:hover .impact-card:not(:hover) {
+  transform: scale(0.97);
+  opacity: 0.7;
+}
+.impact-grid .impact-card:nth-child(1):hover ~ .impact-card,
+.impact-grid:hover .impact-card:nth-child(1):hover {
+  transform: translateY(-6px) translateX(-6px);
+}
+.impact-grid .impact-card:nth-child(3):hover {
+  transform: translateY(-6px) translateX(6px);
 }
 
-.impact-num { 
-  font-family: var(--font-display); 
-  font-size: 28px; 
-  color: var(--accent);
+.impact-num {
+  font-family: var(--font-display);
+  font-size: 44px;
+  color: #ff4d00;
+  opacity: 0.85;
   line-height: 1;
   letter-spacing: 1px;
 }
@@ -743,30 +823,35 @@ body {
   flex: 1;
 }
 
-.impact-h { 
-  font-size: 25px; 
-  font-weight: 700; 
-  color: var(--white); 
-  margin-bottom: 10px; 
+.impact-h {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 10px;
   line-height: 1.4;
 }
 
-.impact-p { 
-  font-size: 16px; 
-  color: var(--muted); 
-  line-height: 1.8; 
-  font-weight: 400; 
+.impact-p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.8;
+  font-weight: 400;
 }
 
 /* 모바일 대응 */
+@media (max-width: 900px) {
+  .impact-grid { grid-template-columns: 1fr; gap: 16px; }
+  .impact-grid .impact-card:nth-child(1).reveal,
+  .impact-grid .impact-card:nth-child(3).reveal {
+    transform: translateY(20px);
+  }
+}
 @media (max-width: 768px) {
   .impact { padding: 80px 20px; }
-  .impact-card { 
-    flex-direction: column; 
-    gap: 16px; 
-    padding: 28px 20px; 
+  .impact-card {
+    padding: 28px 24px;
   }
-  .impact-num { font-size: 24px; }
+  .impact-num { font-size: 32px; }
 }
 /* WHY ODD */
 .why {
