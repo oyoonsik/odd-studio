@@ -63,6 +63,8 @@ body {
     opacity: 0.4;
 }
 
+
+
 .hero-video2 {
   position: absolute;
   top: 0;
@@ -76,10 +78,32 @@ body {
 }
 
 
+
 /* 비디오가 로드되기 전까지 배경 색상 유지 */
 .hero-scroll-effect {
   background: #0a0a0a;
 }
+
+.hero-scroll-effect::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(8, 8, 8, 0.15) 25%,
+        rgba(8, 8, 8, 0.55) 60%,
+        #0a0a0a 100%
+    );
+
+    z-index: 3;
+    pointer-events: none;
+}
+
 
 /* 모바일에서 비디오 최적화 */
 @media (max-width: 768px) {
@@ -716,6 +740,45 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.impact::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(8, 8, 8, 0.15) 25%,
+        rgba(8, 8, 8, 0.55) 60%,
+        #0a0a0a 100%
+    );
+
+    z-index: 3;
+    pointer-events: none;
+}
+
+.impact::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 80px;
+
+    background: linear-gradient(
+        to bottom,
+        #0a0a0a 0%,
+        rgba(8, 8, 8, 0) 100%
+    );
+
+    z-index: 3;
+    pointer-events: none;
+}
+
 
 
 
