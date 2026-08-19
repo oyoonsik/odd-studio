@@ -733,7 +733,7 @@ body {
 
 
 /* 03 SOCIAL IMPACT */
-/* 02 SOCIAL IMPACT 개선 */
+
 .impact { 
   position: relative;
   padding: 140px 24px;
@@ -779,132 +779,275 @@ body {
     pointer-events: none;
 }
 
+/* =========================================================
+   03 SOCIAL IMPACT — PURE GLASS CARDS (색상 없음)
+   ========================================================= */
 
-
-
-.impact .section-tag {color: var(--accent);}
-
+.impact .section-tag { 
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.8;
+}
 
 .impact-inner {
-  width: 100%;
-  max-width: 900px; /* 01 섹션과 동일한 폭으로 정돈 */
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .impact-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 36px;
   margin-top: 50px;
   align-items: stretch;
+  perspective: 1600px;
+  perspective-origin: 50% 30%;
 }
 
+/* ===== 카드 — 순수 투명 유리 (색상 없음!) ===== */
 .impact-card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 18px;
-  background: var(--white);
-  border: 1px solid transparent;
-  border-radius: 14px;
-  padding: 40px 32px 36px;
-  overflow: hidden;
-  transition: transform 0.45s cubic-bezier(.2,.8,.2,1),
-              border-color 0.35s ease,
-              box-shadow 0.35s ease;
+  gap: 14px;
+  
+  border-radius: 28px;
+  padding: 44px 34px 48px;
+  
+  /* 3D 변환 */
+  transform-style: preserve-3d;
+  transform: rotateX(2deg) rotateY(0deg) translateZ(0);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.8s ease,
+              border-color 0.5s ease;
+  
+  cursor: none;
+  overflow: visible;
+  
+  /* ✨ 순수 유리 — 색상 없이 완전 투명! */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  
+   border: 2px solid rgb(255 255 255 / 8%);
+   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgb(255 255 255 / 50%);
 }
 
-/* 카드 위쪽에 얇은 포인트 라인 — 리빌될 때 가운데서 양옆으로 갈라지듯 펼쳐짐 */
-.impact-card::before {
-  content: '';
+/* ===== 1. 유리 반사광 (상단) ===== */
+.impact-card .glass-shine {
   position: absolute;
-  top: 0; left: 50%;
-  width: 0; height: 3px;
-  background: #ff4d00;
-  transform: translateX(-50%);
-  transition: width 0.6s cubic-bezier(.2,.8,.2,1) 0.15s;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 55%;
+  border-radius: 28px 28px 0 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    transparent 100%
+  );
 }
-.impact-card.visible::before { width: 100%; }
 
-/* 카드가 그리드 안에서 갈라져 나오는 리빌 시작 상태 (좌/중/우 서로 다른 방향) */
+/* ===== 2. 하단 미러 반사 ===== */
+.impact-card .glass-mirror {
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  height: 30%;
+  border-radius: 0 0 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 100%
+  );
+}
+
+/* ===== 3. 유리 내부 깊이감 ===== */
+.impact-card .glass-depth {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 40%);
+}
+
+/* ===== 4. 빛 번짐 (호버 시) ===== */
+.impact-card .glass-glow {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+}
+
+/* ===== 5. 가장자리 빛 라인 (호버 시) ===== */
+.impact-card .glass-border-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.03);
+}
+
+/* ===== 6. 콘텐츠는 위로 ===== */
+.impact-card > *:not(.glass-shine):not(.glass-mirror):not(.glass-depth):not(.glass-glow):not(.glass-border-glow) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 호버 — 3D 입체 회전 + 유리 효과 강화 ===== */
+.impact-card:hover {
+  transform: rotateX(4deg) rotateY(-6deg) translateY(-16px) translateZ(30px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 50px 120px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 80px rgba(255, 255, 255, 0.02);
+}
+
+.impact-card:hover .glass-border-glow { 
+  opacity: 1; 
+  transform: scale(1.02);
+}
+.impact-card:hover .glass-glow { 
+  opacity: 1; 
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* ===== 숫자 — 순수 화이트 ===== */
+.impact-num {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 6.5vw, 80px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-bottom: 6px;
+  transform: translateZ(20px);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 
+    0 0 60px rgba(255, 255, 255, 0.05),
+    0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== 제목 ===== */
+.impact-h {
+  font-size: clamp(21px, 2.3vw, 27px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+  margin-top: 2px;
+  transform: translateZ(10px);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== 본문 ===== */
+.impact-p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  font-weight: 400;
+  margin-top: 2px;
+  transform: translateZ(5px);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== 하단 라인 — 순수 화이트 ===== */
+.impact-card .card-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+  transform: translateZ(5px);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+}
+.impact-card:hover .card-line {
+  width: 100%;
+}
+
+/* ===== 리빌 애니메이션 ===== */
 .impact-grid .impact-card.reveal {
   opacity: 0;
-  transform: translateY(26px);
-}
-.impact-grid .impact-card:nth-child(1).reveal {
-  transform: translateY(20px) translateX(-24px) rotate(-3deg);
-}
-.impact-grid .impact-card:nth-child(3).reveal {
-  transform: translateY(20px) translateX(24px) rotate(3deg);
+  transform: translateY(40px) rotateX(6deg) rotateY(-4deg);
 }
 .impact-grid .impact-card.reveal.visible {
   opacity: 1;
-  transform: none;
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1);
+  transform: translateY(0) rotateX(2deg) rotateY(0deg);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.impact-grid .impact-card:nth-child(2).reveal.visible { transition-delay: 0.08s; }
-.impact-grid .impact-card:nth-child(3).reveal.visible { transition-delay: 0.16s; }
+.impact-grid .impact-card:nth-child(2).reveal.visible { transition-delay: 0.1s; }
+.impact-grid .impact-card:nth-child(3).reveal.visible { transition-delay: 0.2s; }
 
-.impact-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 24px 48px -20px rgba(0,0,0,0.5);
-}
-/* 카드 하나에 호버하면 나머지가 살짝 밀리며 갈라지는 느낌 */
-.impact-grid:hover .impact-card:not(:hover) {
-  transform: scale(0.97);
-  opacity: 0.7;
-}
-.impact-grid .impact-card:nth-child(1):hover ~ .impact-card,
-.impact-grid:hover .impact-card:nth-child(1):hover {
-  transform: translateY(-6px) translateX(-6px);
-}
-.impact-grid .impact-card:nth-child(3):hover {
-  transform: translateY(-6px) translateX(6px);
-}
-
-.impact-num {
-  font-family: var(--font-display);
-  font-size: 44px;
-  color: #ff4d00;
-  opacity: 0.85;
-  line-height: 1;
-  letter-spacing: 1px;
-}
-
-.impact-content {
-  flex: 1;
-}
-
-.impact-h {
-  font-size: 21px;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.impact-p {
-  font-size: 15px;
-  color: #555;
-  line-height: 1.8;
-  font-weight: 400;
-}
-
-/* 모바일 대응 */
+/* ===== 모바일 ===== */
 @media (max-width: 900px) {
-  .impact-grid { grid-template-columns: 1fr; gap: 16px; }
-  .impact-grid .impact-card:nth-child(1).reveal,
-  .impact-grid .impact-card:nth-child(3).reveal {
-    transform: translateY(20px);
+  .impact-grid { 
+    grid-template-columns: 1fr; 
+    gap: 28px;
+    perspective: none;
+  }
+  .impact-card {
+    transform: none !important;
+  }
+  .impact-card:hover {
+    transform: translateY(-8px) !important;
+  }
+  .impact-card .glass-border-glow {
+    display: none;
   }
 }
+
 @media (max-width: 768px) {
-  .impact { padding: 80px 20px; }
   .impact-card {
-    padding: 28px 24px;
+    padding: 34px 24px 38px;
+    border-radius: 20px;
   }
-  .impact-num { font-size: 32px; }
+  .impact-num {
+    font-size: 48px;
+  }
+  .impact-h {
+    font-size: 20px;
+  }
+  .impact-p {
+    font-size: 14px;
+  }
 }
 /* WHY ODD */
 .why {
