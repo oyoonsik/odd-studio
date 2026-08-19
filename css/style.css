@@ -54,15 +54,13 @@ body {
    HERO — O.D.D. EDITORIAL / HIGH IMPACT
    ========================================================= */
 .hero-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 0.4;
-  filter: saturate(0.8) contrast(1.1);
+   position: sticky;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    opacity: 0.4;
 }
 
 .hero-video2 {
@@ -77,14 +75,6 @@ body {
   filter: saturate(0.8) contrast(1.1);
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: 
-    radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
-  pointer-events: none;
-}
 
 /* 비디오가 로드되기 전까지 배경 색상 유지 */
 .hero-scroll-effect {
@@ -1154,10 +1144,23 @@ footer {
    HERO — SCROLL SPLIT TEXT EFFECT
    ========================================================= */
 .hero-scroll-effect {
-  position: relative;
-  height: 450vh;
-  background: var(--black);
+    position: relative;
+    height: 300vh;
+    background: #0a0a0a;
 }
+
+/* 배경 영역만 화면에 고정 */
+.hero-bg {
+     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+
 .hero-scroll-effect .hero-noise {
   position: absolute;
   inset: 0;
@@ -1185,15 +1188,17 @@ height: 100%;
 }
 
 .scroll-wrapper {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 1;
+   position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    z-index: 2;
 }
 
 .scroll-scene {
