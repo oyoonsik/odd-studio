@@ -304,6 +304,7 @@ function closeGalleryModal() {
 // TAB 3 : 템플릿
 // =============================================
 const TEMPLATE_DATA = [
+  { cat:'estate', thumbSrc:'img/resume.jpg', tags:[{t:'이력서',cls:'tmpl-tag-industry'},{t:'무료',cls:'tmpl-tag-free'}], title:'이력서 템플릿<br>대기업·컨설팅', desc:'대기업·컨설팅 인사담당자가 검토하는 순서 기준으로 설계한 이력서 템플릿입니다. 정보 위계와 표준 제출 구조에 최적화되어 있습니다.', price:'₩5,000~', priceCls:'free', previewUrl:'template/resume-template.html' },
   { cat:'hospital', thumbSrc:'img/1.jpg', tags:[{t:'병원·의원',cls:'tmpl-tag-industry'},{t:'무료',cls:'tmpl-tag-free'}], title:'원장 신뢰형<br>병원 랜딩', desc:'원장 소개·수상 이력·후기 섹션 중심. 신뢰를 쌓고 예약 전환으로 연결.', price:'무료', priceCls:'free', previewUrl:'template/hospital_01.html' },
   { cat:'hospital', thumbSrc:'img/2.jpg', tags:[{t:'병원·의원',cls:'tmpl-tag-industry'},{t:'프리미엄',cls:'tmpl-tag-pro'}], title:'비포·애프터<br>시술 특화 랜딩', desc:'전후 사진 갤러리 + 실시간 예약 폼 + 한정 프로모션 배너 포함.', price:'₩12,000~', priceCls:'paid', previewUrl:'template/hospital_02.html' },
   { cat:'diet', thumbSrc:'img/3.jpg', tags:[{t:'헬스·다이어트',cls:'tmpl-tag-industry'},{t:'무료',cls:'tmpl-tag-free'}], title:'체험단 모집<br>다이어트 랜딩', desc:'한정 체험단 배너 + 체중감량 후기 카드 + 긴박감 유도 카운트다운.', price:'무료', priceCls:'free', previewUrl:'template/diet_trial.html' },
