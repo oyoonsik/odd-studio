@@ -35,8 +35,8 @@ const modalHTML = `
           <option value="diet">다이어트</option>
           <option value="pt">헬스·PT</option>
           <option value="academy">학원·교육</option>
-          <option value="estate">부동산</option>
           <option value="beauty">피부·뷰티</option>
+          <option value="estate">기타</option>
         </select>
       </div>
       <button type="submit" id="submitBtn" style="width:100%;padding:18px;background:#c8ff00;color:black;font-weight:700;border:none;border-radius:8px;font-size:17px;cursor:pointer;">상담 신청하기 →</button>
